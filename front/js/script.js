@@ -2,7 +2,7 @@
 const url = 'http://localhost:3000/api/products'
 
 // Récuperation des produits
-async function recupererProduit() {
+async function getProducts() {
 const requete = await fetch(url, {
   method:'GET',
 })
@@ -21,7 +21,9 @@ else {
    // création lien vers chaque produit
   productLink = document.createElement('a');
   document.querySelector('#items').append(productLink);
-  productLink.href = './product.html?id=${items[product]._id}';
+  productLink.href = './product.html?id=' + product._id;
+  id = product._id; 
+  console.log(id);
 
   // cration d'un bloc article pour chaque produit
   const article = document.createElement ('article');
@@ -48,10 +50,10 @@ else {
  }
 }
 }
-recupererProduit();
+getProducts();
 
 
-  
+
  
 
 
