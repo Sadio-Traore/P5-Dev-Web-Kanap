@@ -13,6 +13,7 @@ let productName = "" ;
 let price = "" ;
 let description = "" ;
 
+
 // Récuperation du produit séléctionné
 
 async function getProduct() {
@@ -56,7 +57,84 @@ async function getProduct() {
         catch (error) {
             err = alert("Une erreur est survenue");
         }
+         
     }
     
-    // Appel de la fonction getProduct 
-        getProduct();
+    // Appel de la fonction getProduct() 
+    getProduct();
+    
+    //-------------AJOUT PRODUIT AU PANIER----------------
+    //Récupération des choix de l'utilisateur et envoi du panier
+    // Récupération id du formulaire
+  //  const choixCouleur = document.querySelector('#')// c en article
+    //console.log(choixCouleur);
+
+    //---------------------------------------------------------------------------
+    function ajoutPanier(){ 
+    //Sélection du bouton 'Ajouter au panier
+    const buttonEnvoyer = document.querySelector('#addToCart');
+    buttonEnvoyer.addEventListener("click", (event)=>{//button.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        // mettre choix de l'utilsateur dans une varaiable
+        const choixCouleur = colors.value; // couleur productcolors
+        
+        let quantity = document.querySelector('#quantity');
+        let quantiteChoisie = quantity.value;
+
+        //Stocker valeurs récupéres du formulaire dans mons local storage
+        let productOptions = {
+    productId: id,
+    productColor: choixCouleur,
+    quantity: quantiteChoisie,
+    ProductName: product.name,
+    price: product.price,
+    
+};
+console.log(productOptions)
+
+
+// Local Storage
+// convertir donné JSON présent ds localStorage en JS
+let localStorageProduct = JSON.parse(localStorage.getItem('product'));
+console.log(localStorageProduct);
+
+// Fonction confirmation ou retour à la page d'accueil
+const popupConfirmation = () => {
+    if(window.confirm(`Vous avez ajouté ${quantiteChoisie} ${product.name} ${choixCouleur} au panier.
+    Pour Consulter le panier, appuyer sur OK et pour revenir à l'acceuil appuyer sur ANNULER`)){
+    window.location.href = "cart.html"
+}
+else{
+    window.location.href = "index.html"
+
+}}
+
+//cas ou le produit est présent ds le Localstorage
+if(localStorageProduct){
+    localStorageProduct.push(productOptions);
+    localStorage.setItem("product", JSON.stringify(localStorageProduct));
+    console.log(localStorageProduct)
+    popupConfirmation();
+
+}
+// Si le produit n'est pas déja présent
+else{
+    localStorageProduct = [];
+    // ajout au tableau du contenue se trouvant dans productOtions
+    localStorageProduct.push(productOptions);
+    // Envoie dans le localStorage
+    localStorage.setItem("product", JSON.stringify(localStorageProduct));
+    console.log(localStorageProduct);
+    popupConfirmation();
+
+
+      }})}
+
+      ajoutPanier();
+
+      //-----------------------------------------------------------------------------------------------
+
+//localStorage.clear(ajoutPanier);
+
+ 
