@@ -85,6 +85,8 @@ async function getProduct() {
         //Stocker valeurs récupéres du formulaire dans mons local storage
         let productOptions = {
     productId: id,
+    productImg : product.imageUrl,
+    altImg  : product.alTxt,
     productColor: choixCouleur,
     quantity: quantiteChoisie,
     ProductName: product.name,
@@ -135,6 +137,6 @@ else{
 
       //-----------------------------------------------------------------------------------------------
 
-//localStorage.clear(ajoutPanier);
+localStorage.clear(ajoutPanier);
 
  
