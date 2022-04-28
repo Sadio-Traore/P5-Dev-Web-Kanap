@@ -6,12 +6,12 @@ const id = url.get("id");
 console.log(id);
 
 //Déclaration des variables
-let product = "" ;
-let response = "" ;
-let productImg = "" ;
-let productName = "" ;
-let price = "" ;
-let description = "" ;
+let product ;
+let response  ;
+let productImg ;
+let productName ;
+let price ;
+let description ;
 
 // Récuperation du produit séléctionné
 
@@ -41,6 +41,8 @@ async function getProduct() {
               // Récupération de la description
               description = document.querySelector('#description');
               description.textContent = product.description;
+
+            
           
               // Insertion des options de couleurs
               for (let colors of product.colors){
@@ -51,22 +53,23 @@ async function getProduct() {
                   productColors.textContent = colors
                   
                 }
+
             }   
         }
         catch (error) {
             err = alert("Une erreur est survenue");
         }
+        // Appel de la fonction addToCart lorsqu'un produit est choisi
         addToCart(product);
+        
     };
     
     // Appel de la fonction getProduct() 
     getProduct();
-    
-    
+  
     
     //-------------AJOUT PRODUIT AU PANIER----------------
     //Récupération des choix de l'utilisateur et envoi du panier
-  
     //---------------------------------------------------------------------------
     const addToCart = () => {
     //Sélection du bouton 'Ajouter au panier
@@ -75,25 +78,23 @@ async function getProduct() {
         buttonEnvoyer.addEventListener("click", ()=>{
         //event.preventDefault();
 
-        // Récupération de la quantité
+        // Récupération de la quantité et de la couleur
         let quantity = document.querySelector('#quantity');
+        let colors = document.querySelector('#colors');
 
 
          let localStorageProduct = JSON.parse(localStorage.getItem('product'));
         
-         let colors = document.querySelector('#colors');
         
 
        //création d'un nouvel objet
             const produitCaractéristiques = Object.assign({},product,{
-                quantity :`${quantity.value}`,
+                quantity :Number`${product.quantity}`,
                 productImg : product.imageUrl,
                 altImg  : product.alTxt,
                 productColor: `${colors.value}`,
             });
 
-//      })
-//}
 if (localStorageProduct == null) {
     localStorageProduct = [];
     localStorageProduct.push(produitCaractéristiques);
@@ -103,8 +104,7 @@ if (localStorageProduct == null) {
     
 }
 
-
-//     //cas ou le produit est présent ds le Localstorage
+//     //cas ou le produit est présent ds le Localstorage avec la même couleur
 else if(localStorageProduct !== null){
     for (k = 0 ; k < localStorageProduct.length;k++ ){
         if(
@@ -123,6 +123,7 @@ else if(localStorageProduct !== null){
             
             
         } 
+        // cas où il ya un produit présent dans le localStorage avecle même Id et une couleur différente ou possède un Id différent
         for (k = 0; k < localStorageProduct.length; k++ ){
             if(localStorageProduct[k]._id == product._id &&
                localStorageProduct[k].productColor != colors.value ||
@@ -140,51 +141,14 @@ else if(localStorageProduct !== null){
     }
     
     
-    return(localStorageProduct = JSON.parse(localStorage.getItem('product')));
-}    
-        )
+    return(localStorageProduct = JSON.parse(localStorage.getItem('product')))
 //-----------------------------------------------------------------------------------------------
 
-localStorage.clear(addToCart);
+
+//localStorage.clear(addToCart);
 
 
-}
+});
 
-
-
-
-
-// Local Storage
-// convertir donné JSON présent ds localStorage en JS
-        // let localStorageProduct = JSON.parse(localStorage.getItem('product'));
-        // console.log(localStorageProduct);
-
-        // // Fonction confirmation ou retour à la page d'accueil
-        // const popupConfirmation = () => {
-        //     if(window.confirm(`Vous avez ajouté ${quantity.value} ${product.name} ${colors.value} au panier.
-        //     Pour Consulter le panier, appuyer sur OK et pour revenir à l'acceuil appuyer sur ANNULER`)){
-        //         window.location.href = "cart.html"
-        // }
-        // else{
-        //     window.location.href = "index.html"
-
-        // }}
-
-
-
-
-
-       // let color = document.querySelector('#colors');
-//let couleurChoisie = colors.value;
-        //Stocker valeurs récupéres du formulaire dans mons local storage
-    //     let produitCaractéristiques = {
-    //     productId: id,
-    //     productImg : product.imageUrl,
-    //     altImg  : product.alTxt,
-    //     productColor: color.value,
-    //     quantity: Number(quantity.value),
-    //     ProductName: product.name,
-    //     price: product.price,
-        
-    //  };
-    // console.log(produitCaractéristiques)
+    }
+    
