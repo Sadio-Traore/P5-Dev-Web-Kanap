@@ -89,11 +89,18 @@ itemSettingsDelete.append(deleteItem);
 
 }
 
-
-
-
 //----------------------------------------------------------------
 // Modification de quantité et suppression de produits
+
+
+
+
+
+
+
+
+
+
 //--------------------------------------------------------------
 // formulaire
 
@@ -108,32 +115,72 @@ commander.addEventListener('click', (e) => {
 
 
 
-  const formulaireValues = {
+  const donneesFormulaire = {
   
-    prenom : document.querySelector('#firstName'),
-    nom : document.querySelector('#name'),
-    adresse: document.querySelector('#address'),
-    ville : document.querySelector('#city'),
-    email : document.querySelector('#email'),
+    prenom : document.querySelector('#firstName').value,
+    nom : document.querySelector('#lastName').value,
+    adresse: document.querySelector('#address').value,
+    ville : document.querySelector('#city').value,
+    email : document.querySelector('#email').value,
   }
   
-  localStorage.setItem('valeursFormulaire',JSON.stringify(formulaireValues))
+  localStorage.setItem('donneesFormulaire',JSON.stringify(donneesFormulaire))
    const envoiFormulaire = {
      localStorageProduct,
-     formulaireValues
+     donneesFormulaire
    }
 
    console.log(envoiFormulaire);
+
+
    // Contrôles validation donnés formulaires
+   //Contrôle prénom
+   const prenom = donneesFormulaire.prenom;
+    if(/^[A-Za-z]{3,20}$/.test(prenom)){
+  console.log('OK');
+}
+  else{
+    console.log('Veuillez entrer votre prénom');
+  }
 
+  //Contrôle nom
+   const nom = donneesFormulaire.nom;
+    if(/^[A-Za-z]{3,20}$/.test(nom)){
+  console.log('OK');
+}
+  else{
+    console.log('Veuillez entrer votre nom');
+  }
 
-   
+  //Contôle adresse
+   const adresse = donneesFormulaire.adresse;
+    if(/^[A-Za-z0-90-]{10,100}$/.test(adresse)){
+  console.log('OK');
+}
+  else{
+    console.log('Veuillez entrer votre adresse');
+  }
 
+  //Contôle ville
+   const ville = donneesFormulaire.ville;
+    if(/^[A-Za-z]{3,20}$/.test(ville)){
+  console.log('OK');
+}
+  else{
+    alert('Veuillez entrez la ville');
+  }
+     
+//Contrôle email
+   const email = donneesFormulaire.email;
+    if(/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(email)){
+  ;
+}
+  else{
+    alert('veuillez Entrez une adress mail valide');
+  }
+     console.log(email);
 
 })
-
-
-
 
 
 
