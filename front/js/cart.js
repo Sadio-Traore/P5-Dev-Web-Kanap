@@ -3,38 +3,38 @@
 let localStorageProduct = JSON.parse(localStorage.getItem('product'));
 console.log(localStorageProduct);
 
-for (let i of localStorageProduct){
-    // Création balises HTML
-
-//création de l'article
-let article = document.createElement('article');
-article.classList.add("cart__item");
-document.querySelector("#cart__items").append(article);
-
-
-// div Image
-let cartItemImg = document.createElement('div');
-cartItemImg.classList.add("cart__item__img");
-article.append(cartItemImg);
-
-let itemImg  = document.createElement('img');
-itemImg.src = i.productImg;
-itemImg.alt = i.altImg;
-cartItemImg.append(itemImg);
-
- // div description
-let itemContent = document.createElement('div')
-itemContent.classList.add("cart__item__content");
-article.append(itemContent);
-
-let itemDescription = document.createElement('div');
+//const quantity = document.querySelectorAll('.itemQuantity')
+let cartItem;
+let itemContent
+for(let i of localStorageProduct) {
+   cartItem = document.createElement('article');
+  cartItem.classList.add("cart__item");
+  document.querySelector("#cart__items").append(cartItem);
+  
+  
+  // div Image
+  let cartItemImg = document.createElement('div');
+  cartItemImg.classList.add("cart__item__img");
+  cartItem.append(cartItemImg);
+  
+  let itemImg  = document.createElement('img');
+  itemImg.src = i.productImg;
+  itemImg.alt = i.altImg;
+  cartItemImg.append(itemImg);
+  
+  // div description
+  itemContent = document.createElement('div')
+  itemContent.classList.add("cart__item__content");
+  cartItem.append(itemContent);
+  
+  let itemDescription = document.createElement('div');
 itemDescription.classList.add("cart__item__content__titlePrice");
 itemContent.append(itemDescription);
 
  let itemName  = document.createElement('h2');
  itemName.textContent = i.ProductName;
  itemDescription.append(itemName);
-
+ 
  let itemColor  = document.createElement('p');
  itemColor.textContent = i.productColor;
  itemDescription.append(itemColor);
@@ -48,34 +48,42 @@ itemContent.append(itemDescription);
  // div quantité 
 let itemSettings = document.createElement('div');
 itemSettings.classList.add("cart__item__content__settings");
-article.append(itemSettings);
+cartItem.append(itemSettings);
 
 let itemSettingsQuantity  = document.createElement('div');
 itemSettingsQuantity.classList.add("cart__item__content__settings__quantity");
 itemSettings.append(itemSettingsQuantity);
 
-let itemQuantity = itemSettingsQuantity.innerHTML = " <p> Qté : </p> <input type = 'number' class = 'itemQuantity' min = '1' max = '100' value = ''>";
-document.querySelector(".itemQuantity").value = i.quantity;
-itemQuantity.input = i.quantity;
+// itemSettingsQuantity.innerHTML = " <p> Qté : </p> <input type = 'number' class = 'itemQuantity' min = '1' max = '100' value = ''>";
+// let itemQuantity = document.querySelectorAll(".itemQuantity"); //= i.quantity;
+// itemQuantity.value = i.quantity;
+// //itemQuantity.input = i.quantity;
 
 
-//let itemSettingsP  = itemSettingsQuantity.innerHTML = "<p> Qté : </p>";
-// document.createElement('p');
- //itemSettingsP.textContent = "Qté : ";
-// itemSettingsQuantity.append(itemSettingsP);
+ // Insertion de "Qté : "
+ let productQte = document.createElement("p");
+ itemSettingsQuantity.appendChild(productQte);
+ productQte.textContent = "Qté : ";
 
-//let itemQuantity  = document.createElement('input');
-//itemQuantity.classList.add("itemQuantity");
-//temQuantity.innerHTML = `<type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">`;
-//itemSettingsQuantity.append(itemQuantity);
+ // Insertion de la quantité
+ let itemQuantity = document.createElement("input");
+ itemSettingsQuantity.append(itemQuantity);
+ itemQuantity.value = i.quantity;
+ itemQuantity.classList.add("itemQuantity");
+ itemQuantity.setAttribute("type", "number");
+ itemQuantity.setAttribute("min", "1");
+ itemQuantity.setAttribute("max", "100");
+ itemQuantity.setAttribute("name", "itemQuantity");
+ //itemQuantity.setAttribute("value", "");
 
 
 // Div suppression
 let itemSettingsDelete = document.createElement('div');
 itemSettingsDelete.classList.add("cart__item__content__settings__delete");
-article.append(itemSettingsDelete);
+cartItem.append(itemSettingsDelete);
 
 let deleteItem = document.createElement('p');
+deleteItem.classList.add('deleteItem');
 deleteItem.textContent = "Supprimer";
 itemSettingsDelete.append(deleteItem);
 
@@ -84,6 +92,124 @@ itemSettingsDelete.append(deleteItem);
 
 
 
+//----------------------------------------------------------------
+// Modification de quantité et suppression de produits
+//--------------------------------------------------------------
+// formulaire
+
+// séléction du bouton envoyer le formulaire
+const commander = document.querySelector('#order');
+console.log(commander);
+
+// récupération des élément de formulaire pour les ajouter au localStorage
+
+commander.addEventListener('click', (e) => {
+  e.preventDefault();
+
+
+
+  const formulaireValues = {
+  
+    prenom : document.querySelector('#firstName'),
+    nom : document.querySelector('#name'),
+    adresse: document.querySelector('#address'),
+    ville : document.querySelector('#city'),
+    email : document.querySelector('#email'),
+  }
+  
+  localStorage.setItem('valeursFormulaire',JSON.stringify(formulaireValues))
+   const envoiFormulaire = {
+     localStorageProduct,
+     formulaireValues
+   }
+
+   console.log(envoiFormulaire);
+   // Contrôles validation donnés formulaires
+
+
+   
+
+
+})
+
+
+
+
+
+
+
+
+
+
+// let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
+//     let charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
+//     let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function deleteProduct() {
+//   let btn_supprimer = document.querySelectorAll(".deleteItem");
+
+//   for (let j = 0; j < btn_supprimer.length; j++){
+//       btn_supprimer[j].addEventListener("click" , (event) => {
+//           event.preventDefault();
+
+//           //Selection de l'element à supprimer en fonction de son id ET sa couleur
+//           let idDelete = localStorageProduct[j]._id;
+//           let colorDelete = localStorageProduct[j].itemColor;
+
+//           localStorageProduct = localStorageProduct.filter( el => el._id !== idDelete || el.itemColor !== colorDelete );
+          
+//           localStorage.setItem("produit", JSON.stringify(localStorageProduct));
+
+//           //Alerte produit supprimé et refresh
+//           alert("Ce produit a bien été supprimé du panier");
+//           location.reload();
+//       })
+//   }
+// }
+// deleteProduct();
+
+
+
+
+// let garbageButton = document.getElementsByClassName('.deleteItem');
+//     for (let l = 0 ; l < garbageButton.length; l++) {
+//         garbageButton[i].addEventListener('click' , function (event) { 
+//             event.preventDefault();
+//             let id = this.closest(itemContent).id;
+
+//             //on supprime l'article du localStorage
+//             storedTeddies.splice(id, 1);
+
+//             //on enregistre le nouveau localStorage
+//             localStorage.setItem('newArticle', JSON.stringify(localStorageProduct));
+//             JSON.parse(localStorage.getItem('newArticle'));
+
+//             alert('Cet article a bien été supprimé !');
+//             window.location.href = "panier.html";   
+//         }); 
+//     };
+// console.log(garbageButton)
+
+
+
+// let suppressionProduit = document.querySelector('.deleteItem');
+// console.log(suppressionProduit.closest(itemContent));
 
 
 
@@ -104,29 +230,17 @@ itemSettingsDelete.append(deleteItem);
 
 
 
-
-
-
-
-
- //for(i > 0 ; i < localStorageProduct.length; i++){
-   //   console.log(localStorageProduct.length);
-    
- // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// let btnSupprimer = document.querySelectorAll('.deleteItem');
+// console.log(btnSupprimer);
+// //supprimer article
+// for (let l = 0; l < btnSupprimer.length; l++){
+//   productId = l._id;
+//   let idSupprimer = localStorageProduct[l].productId;
+//   console.log(idSupprimer)
+  
+//   localStorageProduct = localStorageProduct.filter(el => el.productId !== idSupprimer)
+//   console.log(localStorageProduct);
+  
+  
+//}
 
