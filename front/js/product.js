@@ -76,79 +76,127 @@ async function getProduct() {
         const buttonEnvoyer = document.querySelector('#addToCart');
 
         buttonEnvoyer.addEventListener("click", ()=>{
-        //event.preventDefault();
 
         // Récupération de la quantité et de la couleur
         let quantity = document.querySelector('#quantity');
         let colors = document.querySelector('#colors');
 
-
+        //console.log(+quantity.value)
          let localStorageProduct = JSON.parse(localStorage.getItem('product'));
         
-        
-
        //création d'un nouvel objet
-            const produitCaractéristiques = Object.assign({},product,{
-                quantity :Number`${product.quantity}`,
+            const produitCaractéristiques = {
+                quantity :+quantity.value,
                 productImg : product.imageUrl,
                 altImg  : product.alTxt,
-                productColor: `${colors.value}`,
-            });
+                productColor: colors.value,
+                productId : product._id,
+                price : product.price,
+            };
 
-if (localStorageProduct == null) {
-    localStorageProduct = [];
-    localStorageProduct.push(produitCaractéristiques);
-    console.log(localStorageProduct);
+        if (localStorageProduct == null) {
+            localStorageProduct = [];
+            localStorageProduct.push(produitCaractéristiques);
+            console.log(localStorageProduct);
 
-    localStorage.setItem('product', JSON.stringify(localStorageProduct));
-    
-}
 
-//     //cas ou le produit est présent ds le Localstorage avec la même couleur
-else if(localStorageProduct !== null){
-    for (k = 0 ; k < localStorageProduct.length;k++ ){
-        if(
-           localStorageProduct[k]._id == product._id && 
-           localStorageProduct[k].productColor == colors.value
-           ){
-           return(
-               localStorageProduct[k].quantity++,
-               console.log(quantity++),
-
-               localStorage.setItem('product', JSON.stringify(localStorageProduct)),
-               console.log(localStorageProduct),
-               (localStorageProduct = JSON.parse(localStorage.getItem('product')))
-               )
-            } 
+            localStorage.setItem('product', JSON.stringify(localStorageProduct));
             
-            
-        } 
-        // cas où il ya un produit présent dans le localStorage avecle même Id et une couleur différente ou possède un Id différent
-        for (k = 0; k < localStorageProduct.length; k++ ){
-            if(localStorageProduct[k]._id == product._id &&
+        }
+
+        //cas ou le produit est présent ds le Localstorage avec la même couleur
+        else if (localStorageProduct != null){
+            for (k = 0 ; k < localStorageProduct.length; k++ ){
+                console.log('test');
+                 if(localStorageProduct[k].productId == product._id && 
+                 localStorageProduct[k].productColor == colors.value
+                 ){
+                    return(
+                        localStorageProduct[k].quantity++ ,
+                        console.log('quantity++'),
+                // //     //localStorageProduct.push(produitCaractéristiques),
+
+                        localStorage.setItem('product', JSON.stringify(localStorageProduct)),
+                // //     console.log(localStorageProduct)//,
+                        (localStorageProduct = JSON.parse(localStorage.getItem('product')))
+                          )
+                    } 
+                }
+                        
+                        
+//                     // } //}
+//         // cas où il ya un produit présent dans le localStorage avecle même Id et une couleur différente ou possède un Id différent
+            for (k = 0; k < localStorageProduct.length; k++ ){
+                 if(localStorageProduct[k].productId == product._id &&
                localStorageProduct[k].productColor != colors.value ||
-               localStorageProduct._id != product._id ){
+               localStorageProduct._id != product._id 
+               ){
                 
                 return(
-                    localStorageProduct.push(localStorageProduct.push(produitCaractéristiques),
-                    localStorage.setItem('product', JSON.stringify(localStorageProduct)),
-                    localStorageProduct = JSON.parse(localStorage.getItem("product"))
+                    localStorageProduct.push(produitCaractéristiques),
+                    localStorage.setItem('product', JSON.stringify(localStorageProduct))//,
+                   // (localStorageProduct = JSON.parse(localStorage.getItem("product")))
                     
                     )   
-                );
+                
                }
-        }
-    }
+//         }
+
+//     }
+// }
     
     
-    return(localStorageProduct = JSON.parse(localStorage.getItem('product')))
-//-----------------------------------------------------------------------------------------------
+//     console.log(quantity);
+   // return(localStorageProduct = JSON.parse(localStorage.getItem('product')))
+// //-----------------------------------------------------------------------------------------------
+
+// //localStorage.clear(addToCart);
 
 
-//localStorage.clear(addToCart);
+     }}
+    // )
+    })};
+   //
+// };
+  //  )
+//}
+//)};
+   
 
 
-});
 
-    }
-    
+
+
+
+
+
+// if (localStorageProduct) {
+//     const resultFind = localStorageProduct.find(
+//         (el) => el._id === product._id && el.productColor === colors.value);
+//         //Si le produit commandé est déjà dans le panier
+//         if (resultFind) {
+//             let newQuantite =
+//             parseInt(produitCaractéristiques.quantity) + parseInt(resultFind.quantity);
+//             resultFind.quantity = newQuantite;
+//             localStorage.setItem("product", JSON.stringify(localStorageProduct));
+//             console.table(localStorageProduct);
+//             //popupConfirmation();
+//         //Si le produit commandé n'est pas dans le panier
+//         } else {
+//         localStorageProduct.push(produitCaractéristiques);
+//             localStorage.setItem("product", JSON.stringify(localStorageProduct));
+//             console.table(localStorageProduct);
+//            // popupConfirmation();
+//         }
+//     //Si le panier est vide
+//     } else {
+//         localStorageProduct =[];
+//         localStorageProduct.push(produitCaractéristiques);
+//         localStorage.setItem("product", JSON.stringify(localStorageProduct));
+//         console.table(localStorageProduct);
+//        // popupConfirmation();
+//     }}
+//     );
+// }
+
+
