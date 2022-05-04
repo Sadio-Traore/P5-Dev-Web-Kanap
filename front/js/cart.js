@@ -181,10 +181,8 @@ console.log(commander);
 commander.addEventListener('click', (e) => {
   e.preventDefault();
 
-
-
+  //Objet contact contenant les données utilisateur
   const contact = {
-  
     prenom : document.querySelector('#firstName').value,
     nom : document.querySelector('#lastName').value,
     adresse: document.querySelector('#address').value,
@@ -193,139 +191,104 @@ commander.addEventListener('click', (e) => {
   }
   
 
-    //Construction d'un array depuis le local storage
-    let idProducts = [];
-    for (let i = 0; i<localStorageProduct.length;i++) {
-        idProducts.push(localStorageProduct[i].productId);
-    }
-    console.log(idProducts);
+  //Construction d'un array depuis le local storage
+  let idProducts = [];
+  for (let i = 0; i<localStorageProduct.length;i++) {
+      idProducts.push(localStorageProduct[i].productId);
+  }
+  console.log(idProducts);
 
+  // Contrôles validation donnés formulaires
+  //Contrôle prénom
+  const prenom = contact.prenom;
+    if(/^[A-Za-z]{3,20}$/.test(prenom)){
+    console.log(prenom);
+  }
+  else{
+    console.log('Veuillez entrer votre prénom');
+  }
 
+  //Contrôle nom
+  const nom = contact.nom;
+    if(/^[A-Za-z-éàùçè]{3,20}$/.test(nom)){
+    console.log(nom);
+  }
+  else{
+    console.log('Veuillez entrer votre nom');
+  }
 
+  //Contôle adresse
+  const adresse = contact.adresse;
+    if(/^[A-Za-z0-9-éèàçù,\s]{5,50}$/.test(adresse)){
+    console.log(adresse);
+  }
+  else{
+    console.log('Veuillez entrer votre adresse');
+  }
 
-
-
-
-
-
-
-            // localStorage.setItem('donneesFormulaire',JSON.stringify(donneesFormulaire))
-            //***** */
-            // Contrôles validation donnés formulaires
-            //Contrôle prénom
-            const prenom = contact.prenom;
-              if(/^[A-Za-z]{3,20}$/.test(prenom)){
-            console.log(prenom);
-          }
-            else{
-              console.log('Veuillez entrer votre prénom');
-            }
-
-            //Contrôle nom
-            const nom = contact.nom;
-              if(/^[A-Za-z-éàùçè]{3,20}$/.test(nom)){
-            console.log(nom);
-          }
-            else{
-              console.log('Veuillez entrer votre nom');
-            }
-
-            //Contôle adresse
-            const adresse = contact.adresse;
-              if(/^[A-Za-z0-9-éèàçù,\s]{5,50}$/.test(adresse)){
-            console.log(adresse);
-          }
-            else{
-              console.log('Veuillez entrer votre adresse');
-            }
-
-            //Contôle ville
-            const ville = contact.ville;
-              if(/^[A-Za-z-.]{3,20}$/.test(ville)){
-            console.log(ville);
-          }
-            else{
-              alert('Veuillez entrez la ville');
-            }
-              
-          //Contrôle email
-            const email = contact.email;
-              if(/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(email)){
-            ;
-          }
-            else{
-              alert('veuillez Entrez une adresse mail valide');
-            }
-              console.log(email);
-              
-              localStorage.setItem('donneesFormulaire',JSON.stringify(contact))
-            const order = {
-              contact : {
-                firstName : prenom,
-                Name : nom,
-                adress : adresse,
-                city : ville,
-                email :email,
-              },
-              localStorageProduct : idProducts
-              
-
-            }
-
-            console.log(order);
-              
-              
-              
-              // // envoie au serveur
-              // const url = 'http://localhost:3000/api/products/order'
-              // async function envoiServeur(order) {
-              //   const requete = await fetch(url, {
-              //     method: 'POST',
-              //     headers: {
-                    
-              //   'Accept': 'application/json', 
-              //       'Content-Type': 'application/json'
-              //     },
-              //     body:
-              //      JSON.stringify(order)
-                  
-              //   });
-                
-              //   if(!requete.ok) {
-              //     alert('Un problème est survenu.');
-              //   }
-              //   else {
-              //     const donnees = await requete.json();
-              //     console.log(donnees);
-              //   }
-              // }
-              
-              // envoiServeur();
-
-            //   const options = {
-            //     method: 'POST',
-            //     body: JSON.stringify(order),
-            //     headers: {
-            //         'Accept': 'application/json', 
-            //         "Content-Type": "application/json" 
-            //     },
-            // };
+  //Contôle ville
+  const ville = contact.ville;
+    if(/^[A-Za-z-.]{3,20}$/.test(ville)){
+    console.log(ville);
+  }
+  else{
+    alert('Veuillez entrez la ville');
+  }
     
-            // fetch("http://localhost:3000/api/products/order", options)
-            // .then((response) => response.json())
-            // .then((data) => {
-            //     console.log(data);
-            //     localStorage.clear();
-            //     localStorage.setItem("orderId", data.orderId);
+//Contrôle email
+  const email = contact.email;
+    if(/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(email)){
+  console.log(email);
+  }
+  else{
+    alert('veuillez Entrez une adresse mail valide');
+  }
+    console.log(email);
     
-            //     document.location.href = "confirmation.html";
-            // })
-            // .catch((err) => {
-            //     alert ("Problème avec fetch : " + err.message);
-            // });
-            // //})
+   //Ajout au localStorage des données formulaire 
+  localStorage.setItem('donneesFormulaire',JSON.stringify(contact))
 
-          })
+  //création objet order
+  const order = {
+    contact : {
+      firstName : prenom,
+      Name : nom,
+      adress : adresse,
+      city : ville,
+      email :email,
+    },
+     idProducts: localStorageProduct
+  }
+
+  console.log(order);
+
+//Envoie du formulaire au serveur
+
+async function envoieFormulaireServeur(){
+
+  fetch("http://localhost:3000/api/products/order", {
+    method: 'POST',
+      body: JSON.stringify(order),
+      headers: {
+          'Accept': 'application/json', 
+          "Content-Type": "application/json" 
+      }
+  })
+  .then((response) => response.json())
+  .then((data) => {
+      console.log(data);
+      localStorage.clear();
+      localStorage.setItem("orderId", data.orderId);
+
+      document.location.href = "confirmation.html";
+  })
+  .catch((err) => {
+      err = alert ("une erreur s'est produite ");
+  });
+}
+envoieFormulaireServeur();
+
+})
 
   
 
