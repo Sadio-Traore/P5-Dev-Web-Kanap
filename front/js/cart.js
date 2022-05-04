@@ -89,24 +89,64 @@ itemSettings.append(itemSettingsQuantity);
  itemSettingsDelete.append(deleteItem);
 
  
- 
 }
 
 //----------------------------------------------------------------
-// Modification de quantité et suppression de produits
+//suppression de produit
 
+   // récupération du bouton : supprimer
+   let btnSupprimer = document.querySelectorAll(".deleteItem");
+   function removeItem() {
+
+    for (let i = 0; i < btnSupprimer.length; i++){
+      btnSupprimer[i].addEventListener("click" , (e) => {
+        e.preventDefault();
+      
+      //Selection du produit à supprimer en fonction de son id et de sa couleur
+            let deleteProduct = localStorageProduct[i].productId;
+            let deleteColor = localStorageProduct[i].productColor;
+            
+            localStorageProduct = localStorageProduct.filter( el => el.productId !== deleteProduct || el.productColor !== deleteColor );
+            
+            localStorage.setItem("product", JSON.stringify(localStorageProduct));
+
+            
+            alert("Ce produit a été supprimé du panier");
+            //réactualisation de la page
+            location.reload();
+        })
+    }
+  };
+    removeItem();
+    
+//Mise à jour des totaux
+// qantité total
+// let quantitéTotal = document.querySelector('#totalQuantity');
+// const totalItem = 
+
+
+//Montant total du panier
+let prixTotal = [];
+
+// séléction des prix
+
+for(let p = 0; p < localStorageProduct.length; p++){
+  let prixProduitPanier = localStorageProduct[p].price;
   
-  
- 
-  
+  // ajout des prix au tableau: prixTotal
+  prixTotal.push(prixProduitPanier)
+  console.log(prixTotal)
+}
 
+//Addition des prix présent dans le tableau 
+const reducer = (accumulator,currentValue) => accumulator + currentValue
+const total = prixTotal.reduce(reducer);
+console.log(total);
 
+// Affichage du prix total
 
-
-
-
-
-
+let prixTotalCommande = document.querySelector('#totalPrice');
+prixTotalCommande.textContent = total 
 //--------------------------------------------------------------
 // formulaire
 
