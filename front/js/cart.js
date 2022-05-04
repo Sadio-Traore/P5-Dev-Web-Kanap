@@ -5,7 +5,9 @@ console.log(localStorageProduct);
 
 //const quantity = document.querySelectorAll('.itemQuantity')
 let cartItem;
-let itemContent
+let itemContent;
+
+
 for(let i of localStorageProduct) {
    cartItem = document.createElement('article');
   cartItem.classList.add("cart__item");
@@ -69,10 +71,13 @@ itemSettings.append(itemSettingsQuantity);
  itemQuantity.setAttribute("max", "100");
  itemQuantity.setAttribute("name", "itemQuantity");
  itemQuantity.setAttribute("value", "");
+ 
+ // Modification de la quantité dans le panier
+ itemQuantity.addEventListener("change", function(e) {
+  console.log(e.target.value)
+})
+ 
 
- 
- 
- 
  // Div suppression
  let itemSettingsDelete = document.createElement('div');
  itemSettingsDelete.classList.add("cart__item__content__settings__delete");
@@ -83,15 +88,17 @@ itemSettings.append(itemSettingsQuantity);
  deleteItem.textContent = "Supprimer";
  itemSettingsDelete.append(deleteItem);
 
+ 
+ 
 }
 
 //----------------------------------------------------------------
 // Modification de quantité et suppression de produits
 
-const input = document.querySelector('.itemQuantity')
-     input.addEventListener("change", function(e) {
-       console.log(e.target.value)
-     })
+  
+  
+ 
+  
 
 
 
