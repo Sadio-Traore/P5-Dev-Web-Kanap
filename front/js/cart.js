@@ -6,6 +6,7 @@ console.log(localStorageProduct);
 //const quantity = document.querySelectorAll('.itemQuantity')
 let cartItem;
 let itemContent;
+let key;
 
 
 for(let i of localStorageProduct) {
@@ -64,19 +65,24 @@ itemSettings.append(itemSettingsQuantity);
  // Insertion de la quantité
  let itemQuantity = document.createElement("input");
  itemSettingsQuantity.append(itemQuantity);
- itemQuantity.value = i.quantity;
+ itemQuantity.value = i.quantity  ;
  itemQuantity.classList.add("itemQuantity");
  itemQuantity.setAttribute("type", "number");
  itemQuantity.setAttribute("min", "1");
  itemQuantity.setAttribute("max", "100");
  itemQuantity.setAttribute("name", "itemQuantity");
  itemQuantity.setAttribute("value", "");
- 
- // Modification de la quantité dans le panier
+// Modification de la quantité dans le panier
  itemQuantity.addEventListener("change", function(e) {
-  console.log(e.target.value)
-})
- 
+  //console.log(e.target.value);
+
+   key= itemQuantity.value;
+   i.quantity = key
+   console.log(i.quantity)
+  localStorage.setItem('key',key);
+});
+
+
 
  // Div suppression
  let itemSettingsDelete = document.createElement('div');
@@ -119,25 +125,41 @@ itemSettings.append(itemSettingsQuantity);
   };
     removeItem();
     
+//---------------------------------------------------
 //Mise à jour des totaux
 // qantité total
-// let quantitéTotal = document.querySelector('#totalQuantity');
-// const totalItem = 
+let itemQuantity = document.querySelector('input');
+
+var sommeItem = (itemQuantity.length);
+let totalItem ;
+
+    for (var i = 0; i < totalItem; ++i) {
+        sommeItem += totalItem[i].value;
+    }
+ let quantitéTotal = document.querySelector('#totalQuantity');
+ //const totalItem = itemQuantity.length;
+quantitéTotal.textContent = sommeItem;
+console.log('totalItem');
+
+
+//--------------------
+
 
 
 //Montant total du panier
 let prixTotal = [];
-
-// séléction des prix
-
-for(let p = 0; p < localStorageProduct.length; p++){
-  let prixProduitPanier = localStorageProduct[p].price;
+//let quantityTotal = +localStorageProduct.quantity;
+  // séléction des prix
   
-  // ajout des prix au tableau: prixTotal
-  prixTotal.push(prixProduitPanier)
-  console.log(prixTotal)
-}
-
+  for(let p = 0; p < localStorageProduct.length; p++){
+    
+    let prixProduitPanier = (localStorageProduct[p].price)*(itemQuantity.value)
+    
+    // ajout des prix au tableau: prixTotal
+    prixTotal.push(prixProduitPanier)
+    console.log(prixTotal)
+  }
+  
 //Addition des prix présent dans le tableau 
 const reducer = (accumulator,currentValue) => accumulator + currentValue
 const total = prixTotal.reduce(reducer);
@@ -201,7 +223,7 @@ commander.addEventListener('click', (e) => {
 
             //Contrôle nom
             const nom = contact.nom;
-              if(/^[A-Za-z]{3,20}$/.test(nom)){
+              if(/^[A-Za-z-éàùçè]{3,20}$/.test(nom)){
             console.log(nom);
           }
             else{
@@ -210,7 +232,7 @@ commander.addEventListener('click', (e) => {
 
             //Contôle adresse
             const adresse = contact.adresse;
-              if(/^[A-Za-z0-9-,]$/.test(adresse)){
+              if(/^[A-Za-z0-9-éèàçù,\s]{5,50}$/.test(adresse)){
             console.log(adresse);
           }
             else{
@@ -219,7 +241,7 @@ commander.addEventListener('click', (e) => {
 
             //Contôle ville
             const ville = contact.ville;
-              if(/^[A-Za-z]{3,20}$/.test(ville)){
+              if(/^[A-Za-z-.]{3,20}$/.test(ville)){
             console.log(ville);
           }
             else{
