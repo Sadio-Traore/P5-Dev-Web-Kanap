@@ -170,126 +170,135 @@ console.log(total);
 let prixTotalCommande = document.querySelector('#totalPrice');
 prixTotalCommande.textContent = total 
 //--------------------------------------------------------------
-// formulaire
+
+// FORMULAIRE
 
 // séléction du bouton envoyer le formulaire
-const commander = document.querySelector('#order');
-console.log(commander);
+  const commander = document.querySelector('#order');
+  console.log(commander);
 
-// récupération des élément de formulaire pour les ajouter au localStorage
+  // récupération des élément de formulaire pour les ajouter au localStorage
 
-commander.addEventListener('click', (e) => {
-  e.preventDefault();
+  commander.addEventListener('click', (e) => {
+    e.preventDefault();
 
-  //Objet contact contenant les données utilisateur
-  const contact = {
-    prenom : document.querySelector('#firstName').value,
-    nom : document.querySelector('#lastName').value,
-    adresse: document.querySelector('#address').value,
-    ville : document.querySelector('#city').value,
-    email : document.querySelector('#email').value,
-  }
-  
-
-  //Construction d'un array depuis le local storage
-  let idProducts = [];
-  for (let i = 0; i<localStorageProduct.length;i++) {
-      idProducts.push(localStorageProduct[i].productId);
-  }
-  console.log(idProducts);
-
-  // Contrôles validation donnés formulaires
-  //Contrôle prénom
-  const prenom = contact.prenom;
-    if(/^[A-Za-z]{3,20}$/.test(prenom)){
-    console.log(prenom);
-  }
-  else{
-    console.log('Veuillez entrer votre prénom');
-  }
-
-  //Contrôle nom
-  const nom = contact.nom;
-    if(/^[A-Za-z-éàùçè]{3,20}$/.test(nom)){
-    console.log(nom);
-  }
-  else{
-    console.log('Veuillez entrer votre nom');
-  }
-
-  //Contôle adresse
-  const adresse = contact.adresse;
-    if(/^[A-Za-z0-9-éèàçù,\s]{5,50}$/.test(adresse)){
-    console.log(adresse);
-  }
-  else{
-    console.log('Veuillez entrer votre adresse');
-  }
-
-  //Contôle ville
-  const ville = contact.ville;
-    if(/^[A-Za-z-.]{3,20}$/.test(ville)){
-    console.log(ville);
-  }
-  else{
-    alert('Veuillez entrez la ville');
-  }
+    //Objet contact contenant les données utilisateur
+    const contact = {
+      firstName : document.querySelector('#firstName').value,
+      lastName : document.querySelector('#lastName').value,
+      address: document.querySelector('#address').value,
+      city : document.querySelector('#city').value,
+      email : document.querySelector('#email').value,
+    }
     
-//Contrôle email
-  const email = contact.email;
-    if(/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(email)){
-  console.log(email);
-  }
-  else{
-    alert('veuillez Entrez une adresse mail valide');
-  }
+
+    // Contrôles validation donnés formulaires
+    //Contrôle prénom
+    const firstName = contact.firstName;
+      if(/^[A-Za-z]{3,20}$/.test(firstName)){
+      console.log(firstName);
+    }
+    else{
+      console.log('Veuillez entrer votre prénom');
+    }
+
+    //Contrôle nom
+    const lastName = contact.lastName;
+      if(/^[A-Za-z-éàùçè]{3,20}$/.test(lastName)){
+      console.log(lastName);
+    }
+    else{
+      console.log('Veuillez entrer votre nom');
+    }
+
+    //Contôle adresse
+    const address = contact.address;
+      if(/^[A-Za-z0-9-éèàçù,\s]{5,50}$/.test(address)){
+      console.log(address);
+    }
+    else{
+      console.log('Veuillez entrer votre adresse');
+    }
+
+    //Contôle ville
+    const city = contact.city;
+      if(/^[A-Za-z-.]{3,20}$/.test(city)){
+      console.log(city);
+    }
+    else{
+      alert('Veuillez entrez la ville');
+    }
+      
+  //Contrôle email
+    const email = contact.email;
+      if(/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(email)){
     console.log(email);
+    }
+    else{
+      alert('veuillez Entrez une adresse mail valide');
+    }
+      console.log(email);
+      
+    //Ajout au localStorage des données formulaire 
+    localStorage.setItem('donneesFormulaire',JSON.stringify(contact))
+
+  //Construction d'un array products depuis le local storage pour récupérer les ID produits a envoyer
+
+    let products = [];
+    for (i = 0 ; i < localStorageProduct.length; i++){
+      let productsId = localStorageProduct[i].productId;
+      products.push(productsId);
+    }
     
-   //Ajout au localStorage des données formulaire 
-  localStorage.setItem('donneesFormulaire',JSON.stringify(contact))
+    // Objet order à envoyer au serveur
+    const order = {
+      contact :{
+        firstName,
+        lastName,
+        address,
+        city,
+        email
+      },
+      products
+    }
 
-  //création objet order
-  const order = {
-    contact : {
-      firstName : prenom,
-      Name : nom,
-      adress : adresse,
-      city : ville,
-      email :email,
-    },
-     idProducts: localStorageProduct
-  }
+    console.log(order);
 
-  console.log(order);
+  //Envoie du formulaire au serveur
 
-//Envoie du formulaire au serveur
+    async function envoieFormulaireServeur(){
+    //let response;
+    
+        await fetch("http://localhost:3000/api/products/order", {
+          method: 'POST',
+            body: JSON.stringify(order),
+            headers: {
+                'Accept': 'application/json', 
+                "Content-Type": "application/json" 
+            }
+        })
 
-async function envoieFormulaireServeur(){
+        .then((response) =>{  response.json()
 
-  fetch("http://localhost:3000/api/products/order", {
-    method: 'POST',
-      body: JSON.stringify(order),
-      headers: {
-          'Accept': 'application/json', 
-          "Content-Type": "application/json" 
-      }
-  })
-  .then((response) => response.json())
-  .then((data) => {
-      console.log(data);
-      localStorage.clear();
-      localStorage.setItem("orderId", data.orderId);
+          console.log(response)
+          
+          //récupérer l'Id de la commande dans le localStorage
+          localStorage.setItem("orderId", response.orderId);
+           // //Vider le localStorage
+            // localStorage.clear();
+          // //Redirection vers la page confirmation
+            //document.location.href = "confirmation.html";
+          })
 
-      document.location.href = "confirmation.html";
-  })
-  .catch((err) => {
-      err = alert ("une erreur s'est produite ");
+        .catch((err) => {
+              err = alert ("une erreur s'est produite ");
+            }
+            )
+
+        }
+    envoieFormulaireServeur();
+  console.log(envoieFormulaireServeur);
   });
-}
-envoieFormulaireServeur();
 
-})
 
   
-
-
