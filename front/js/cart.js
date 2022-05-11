@@ -7,101 +7,115 @@ console.log(localStorageProduct);
 let cartItem;
 let itemContent;
 let key;
+let prix;
+//let reducer = (accumulator,currentValue) => accumulator + currentValue
+let quantiteItem = [];
+console.log(quantiteItem)
+
+let quantiteItemPanier;
+let prixItem;
+let prixItemPanier;
+let reducer = (accumulator,currentValue) => accumulator + currentValue;
+let totalPrixItems; //= prixItem.reduce(reducer);
+let prixItemsTotalCommande = document.querySelector('#totalPrice');
+
+let quantite = [];
+    let quantiteProduitPanier;
+    let prixProduitPanier;
+let totalQuantite ;//= quantite.reduce(reducer);
+    let quantiteTotalCommande = document.querySelector('#totalQuantity');
 
 
-for(let i of localStorageProduct) {
-   cartItem = document.createElement('article');
-  cartItem.classList.add("cart__item");
-  document.querySelector("#cart__items").append(cartItem);
+// création fonction affichageProduitPanier
+function affichageProduitPanier(){
+
   
-  
-  // div Image
-  let cartItemImg = document.createElement('div');
-  cartItemImg.classList.add("cart__item__img");
-  cartItem.append(cartItemImg);
-  
-  let itemImg  = document.createElement('img');
-  itemImg.src = i.productImg;
-  itemImg.alt = i.altImg;
-  cartItemImg.append(itemImg);
-  
-  // div description
-  itemContent = document.createElement('div')
-  itemContent.classList.add("cart__item__content");
-  cartItem.append(itemContent);
-  
-  let itemDescription = document.createElement('div');
-itemDescription.classList.add("cart__item__content__titlePrice");
-itemContent.append(itemDescription);
+  for(let i of localStorageProduct) {
+    cartItem = document.createElement('article');
+    cartItem.classList.add("cart__item");
+    document.querySelector("#cart__items").append(cartItem);
+    //cartItem.setAttribute('data-id', localStorageProduct[i].productId);
+    
+    // div Image
+    let cartItemImg = document.createElement('div');
+    cartItemImg.classList.add("cart__item__img");
+    cartItem.append(cartItemImg);
+    
+    let itemImg  = document.createElement('img');
+    itemImg.src = i.productImg;
+    itemImg.alt = i.altImg;
+    cartItemImg.append(itemImg);
+    
+    // div description
+    itemContent = document.createElement('div')
+    itemContent.classList.add("cart__item__content");
+    cartItem.append(itemContent);
+      
+    let itemDescription = document.createElement('div');
+    itemDescription.classList.add("cart__item__content__titlePrice");
+    itemContent.append(itemDescription);
 
- let itemName  = document.createElement('h2');
- itemName.textContent = i.ProductName;
- itemDescription.append(itemName);
- 
- let itemColor  = document.createElement('p');
- itemColor.textContent = i.productColor;
- itemDescription.append(itemColor);
- console.log(itemColor);
+    let itemName  = document.createElement('h2');
+    itemName.textContent = i.ProductName;
+    itemDescription.append(itemName);
+    
+    let itemColor  = document.createElement('p');
+    itemColor.textContent = i.productColor;
+    itemDescription.append(itemColor);
+    console.log(itemColor);
 
- let itemPrice = document.createElement('p');
- itemPrice.textContent = i.price + ' €';
- itemDescription.append(itemPrice);
+    let itemPrice = document.createElement('p');
+    itemPrice.textContent = i.price + ' €';
+    itemDescription.append(itemPrice);
 
+    
+    // div quantité 
+    let itemSettings = document.createElement('div');
+    itemSettings.classList.add("cart__item__content__settings");
+    cartItem.append(itemSettings);
 
- // div quantité 
-let itemSettings = document.createElement('div');
-itemSettings.classList.add("cart__item__content__settings");
-cartItem.append(itemSettings);
+    let itemSettingsQuantity  = document.createElement('div');
+    itemSettingsQuantity.classList.add("cart__item__content__settings__quantity");
+    itemSettings.append(itemSettingsQuantity);
 
-let itemSettingsQuantity  = document.createElement('div');
-itemSettingsQuantity.classList.add("cart__item__content__settings__quantity");
-itemSettings.append(itemSettingsQuantity);
+    // Insertion de "Qté : "
+    let quantityP = document.createElement("p");
+    itemSettingsQuantity.append(quantityP);
+    quantityP.textContent = "Qté : ";
 
- // Insertion de "Qté : "
- let quantityP = document.createElement("p");
- itemSettingsQuantity.append(quantityP);
- quantityP.textContent = "Qté : ";
+    // Insertion de la quantité
+    let itemQuantity = document.createElement("input");
+    itemSettingsQuantity.append(itemQuantity);
+    itemQuantity.value = i.quantity  ;
+    itemQuantity.classList.add("itemQuantity");
+    itemQuantity.setAttribute("type", "number");
+    itemQuantity.setAttribute("min", "1");
+    itemQuantity.setAttribute("max", "100");
+    itemQuantity.setAttribute("name", "itemQuantity");
+    itemQuantity.setAttribute("value", "");
 
- // Insertion de la quantité
- let itemQuantity = document.createElement("input");
- itemSettingsQuantity.append(itemQuantity);
- itemQuantity.value = i.quantity  ;
- itemQuantity.classList.add("itemQuantity");
- itemQuantity.setAttribute("type", "number");
- itemQuantity.setAttribute("min", "1");
- itemQuantity.setAttribute("max", "100");
- itemQuantity.setAttribute("name", "itemQuantity");
- itemQuantity.setAttribute("value", "");
-// Modification de la quantité dans le panier
- itemQuantity.addEventListener("change", function(e) {
-  //console.log(e.target.value);
-
-   key= itemQuantity.value;
-   i.quantity = key
-   console.log(i.quantity)
-  localStorage.setItem('key',key);
-});
-
-
-
- // Div suppression
- let itemSettingsDelete = document.createElement('div');
- itemSettingsDelete.classList.add("cart__item__content__settings__delete");
- cartItem.append(itemSettingsDelete);
- 
- let deleteItem = document.createElement('p');
- deleteItem.classList.add('deleteItem');
- deleteItem.textContent = "Supprimer";
- itemSettingsDelete.append(deleteItem);
-
- 
+    // Div suppression
+    let itemSettingsDelete = document.createElement('div');
+    itemSettingsDelete.classList.add("cart__item__content__settings__delete");
+    cartItem.append(itemSettingsDelete);
+    
+    let deleteItem = document.createElement('p');
+    deleteItem.classList.add('deleteItem');
+    deleteItem.textContent = "Supprimer";
+    itemSettingsDelete.append(deleteItem);
+    
+  }
 }
 
-//----------------------------------------------------------------
-//suppression de produit
+affichageProduitPanier()
+  
+  //----------------------------------------------------------------
+  //suppression de produit
 
    // récupération du bouton : supprimer
    let btnSupprimer = document.querySelectorAll(".deleteItem");
+
+   //Création fonction removeItem()
    function removeItem() {
 
     for (let i = 0; i < btnSupprimer.length; i++){
@@ -125,53 +139,74 @@ itemSettings.append(itemSettingsQuantity);
   };
     removeItem();
     
-//---------------------------------------------------
-//Mise à jour des totaux
-// qantité total
-let itemQuantity = document.querySelector('input');
+//-------------------------------------------------
+// Calcul des totaux
 
-var sommeItem = (itemQuantity.length);
-let totalItem ;
+ let totalItemsQuantite
+ let totalItemsPrix
 
-    for (var i = 0; i < totalItem; ++i) {
-        sommeItem += totalItem[i].value;
-    }
- let quantitéTotal = document.querySelector('#totalQuantity');
- //const totalItem = itemQuantity.length;
-quantitéTotal.textContent = sommeItem;
-console.log('totalItem');
+function AffichageTotauxquantitePrix(){
 
+  // Récupération du total des quantités
+  let itemQuantity = document.querySelectorAll('.itemQuantity');
+  let tableauArticles = itemQuantity.length,
+ 
+  totalItemsQuantite = 0;
 
-//--------------------
-
-
-
-//Montant total du panier
-let prixTotal = [];
-//let quantityTotal = +localStorageProduct.quantity;
-  // séléction des prix
-  
-  for(let p = 0; p < localStorageProduct.length; p++){
-    
-    let prixProduitPanier = (localStorageProduct[p].price)*(itemQuantity.value)
-    
-    // ajout des prix au tableau: prixTotal
-    prixTotal.push(prixProduitPanier)
-    console.log(prixTotal)
+  for (let i = 0; i < tableauArticles; ++i) {
+      totalItemsQuantite += itemQuantity[i].valueAsNumber;
   }
-  
-//Addition des prix présent dans le tableau 
-const reducer = (accumulator,currentValue) => accumulator + currentValue
-const total = prixTotal.reduce(reducer);
-console.log(total);
 
-// Affichage du prix total
+  let quantiteTotal = document.querySelector('#totalQuantity');
+  quantiteTotal.textContent = totalItemsQuantite;
+  console.log(totalItemsQuantite);
 
-let prixTotalCommande = document.querySelector('#totalPrice');
-prixTotalCommande.textContent = total 
+  // Récupération du prix total
+  totalItemsPrix = 0;
+
+  for (let i = 0; i < tableauArticles; ++i) {
+      totalItemsPrix += (itemQuantity[i].valueAsNumber * localStorageProduct[i].price);
+  }
+
+  let prixTotal = document.querySelector('#totalPrice');
+  prixTotal.innerHTML = totalItemsPrix;
+  console.log(totalItemsPrix);
+}
+AffichageTotauxquantitePrix();
+
+// Modifications quantité et prix
+
+let itemQuantity = document.querySelectorAll("input");
+
+function modificationQuantité(){
+
+  for (let k = 0 ; k < localStorageProduct.length; k++ ){
+    //	Ecoute du changement de valeur des inputs
+    itemQuantity[k].addEventListener('change', () =>{
+      //let key = e.target.value
+      // console.log(key)
+      return(
+        //console.log('quantity'),
+        // console.log(itemQuantity[k].value),
+        localStorageProduct[k].quantity= +itemQuantity[k].value ,
+        
+          // ajout de la nouvelle quantité au localStorage
+          localStorage.setItem("product", JSON.stringify(localStorageProduct)),
+         
+          console.log(localStorageProduct),
+           
+          // rappel de la fonction AffichagetotauxQuantitePrix
+          AffichageTotauxquantitePrix()
+          )
+      } 
+        
+    )}
+}
+modificationQuantité();
+        
 //--------------------------------------------------------------
-
-// FORMULAIRE
+  
+  // FORMULAIRE
 
 // séléction du bouton envoyer le formulaire
   const commander = document.querySelector('#order');
@@ -244,12 +279,13 @@ prixTotalCommande.textContent = total
 
   //Construction d'un array products depuis le local storage pour récupérer les ID produits a envoyer
 
-    let products = [];
+    let productsId = [];
     for (i = 0 ; i < localStorageProduct.length; i++){
-      let productsId = localStorageProduct[i].productId;
-      products.push(productsId);
+      productsId.push(localStorageProduct[i].productId);
     }
+
     
+    console.log(productsId)
     // Objet order à envoyer au serveur
     const order = {
       contact :{
@@ -259,7 +295,7 @@ prixTotalCommande.textContent = total
         city,
         email
       },
-      products
+      products:productsId,
     }
 
     console.log(order);
@@ -278,18 +314,20 @@ prixTotalCommande.textContent = total
             }
         })
 
-        .then((response) =>{  response.json()
-
-          console.log(response)
+        .then((response) => response.json())
+          //console.log(response.json())
           
-          //récupérer l'Id de la commande dans le localStorage
-          localStorage.setItem("orderId", response.orderId);
-           // //Vider le localStorage
-            // localStorage.clear();
-          // //Redirection vers la page confirmation
-            //document.location.href = "confirmation.html";
-          })
-
+        .then((params) => {
+          console.log(params)
+          //data.get('orderId',data.orderId)
+          //récupérer l'Id de la commande et l'ajouter au localStorage 
+          localStorage.setItem('orderId', params.orderId)
+          //Vider le localStorage
+           //localStorage.clear();
+           //Redirection vers la page confirmation
+           document.location.href = "confirmation.html";
+        })
+          
         .catch((err) => {
               err = alert ("une erreur s'est produite ");
             }
