@@ -80,7 +80,7 @@ const addToCart = () => {
         // Récupération de la quantité et de la couleur
     let quantity = document.querySelector('#quantity');
     let colors = document.querySelector('#colors');
-
+    let ok ;
     let localStorageProduct = JSON.parse(localStorage.getItem('product'));
     
     //création  objet produitCaractéristique
@@ -112,10 +112,15 @@ const addToCart = () => {
                  if(localStorageProduct[k].productId == product._id && 
                  localStorageProduct[k].productColor == colors.value
                  ){
-                    return(
-                        localStorageProduct[k].quantity++,
-                        console.log('quantity++'),
+                    // variable contenant la quantité à ajouter
+                    let ajoutQuantite = parseInt(quantity.value);
+                    //console.log(parseInt(quantity.value))
+                    //console.log(ajoutQuantite)
+                    const  newQuantite =+ (localStorageProduct[k].quantity +=  ajoutQuantite)
 
+                    return(
+                        newQuantite ,
+                        console.log(newQuantite),
                         localStorage.setItem('product', JSON.stringify(localStorageProduct)),
                         (localStorageProduct = JSON.parse(localStorage.getItem('product')))
                           )
@@ -135,7 +140,6 @@ const addToCart = () => {
                         )   
                 }
             }
-            }
         }
-    )
+    } )
 }
