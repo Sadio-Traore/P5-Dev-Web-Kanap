@@ -149,12 +149,12 @@ function AffichageTotauxquantitePrix(){
 
   // Récupération du total des quantités
   let itemQuantity = document.querySelectorAll('.itemQuantity');
-  let tableauArticles = itemQuantity.length,
- 
+  let nombreArticles = itemQuantity.length
+ //console.log(nombreArticles);
   totalItemsQuantite = 0;
 
-  for (let i = 0; i < tableauArticles; ++i) {
-      totalItemsQuantite += itemQuantity[i].valueAsNumber;
+  for (let i = 0; i < nombreArticles; ++i) {
+      totalItemsQuantite += (+itemQuantity[i].value);
   }
 
   let quantiteTotal = document.querySelector('#totalQuantity');
@@ -164,13 +164,15 @@ function AffichageTotauxquantitePrix(){
   // Récupération du prix total
   totalItemsPrix = 0;
 
-  for (let i = 0; i < tableauArticles; ++i) {
-      totalItemsPrix += (itemQuantity[i].valueAsNumber * localStorageProduct[i].price);
+  for (let i = 0; i < nombreArticles; ++i) {
+      totalItemsPrix += (+itemQuantity[i].value * localStorageProduct[i].price);
   }
 
   let prixTotal = document.querySelector('#totalPrice');
-  prixTotal.innerHTML = totalItemsPrix;
+  prixTotal.textContent = totalItemsPrix;
   console.log(totalItemsPrix);
+
+  sessionStorage.setItem('prixTotal', totalItemsPrix);
 }
 AffichageTotauxquantitePrix();
 
@@ -186,8 +188,7 @@ function modificationQuantité(){
       //let key = e.target.value
       // console.log(key)
       return(
-        //console.log('quantity'),
-        // console.log(itemQuantity[k].value),
+        //valeur de la nouvelle quantité
         localStorageProduct[k].quantity= +itemQuantity[k].value ,
         
           // ajout de la nouvelle quantité au localStorage
@@ -217,7 +218,7 @@ modificationQuantité();
   commander.addEventListener('click', (e) => {
     e.preventDefault();
 
-    //Objet contact contenant les données utilisateur
+  //Objet contact contenant les données utilisateur
     const contact = {
       firstName : document.querySelector('#firstName').value,
       lastName : document.querySelector('#lastName').value,
@@ -225,16 +226,16 @@ modificationQuantité();
       city : document.querySelector('#city').value,
       email : document.querySelector('#email').value,
     }
-    
-
-    // Contrôles validation donnés formulaires
-    //Contrôle prénom
+      
+      // Contrôles validation donnés formulaires
+      //Contrôle prénom
     const firstName = contact.firstName;
-      if(/^[A-Za-z]{3,20}$/.test(firstName)){
+     if (/^[A-Za-z]{3,20}$/.test(firstName)){
+      
       console.log(firstName);
     }
     else{
-      console.log('Veuillez entrer votre prénom');
+      alert('Veuillez entrer votre prénom');
     }
 
     //Contrôle nom
@@ -243,7 +244,7 @@ modificationQuantité();
       console.log(lastName);
     }
     else{
-      console.log('Veuillez entrer votre nom');
+      alert('Veuillez entrer votre nom');
     }
 
     //Contôle adresse
@@ -263,80 +264,76 @@ modificationQuantité();
     else{
       alert('Veuillez entrez la ville');
     }
-      
-  //Contrôle email
+    
+    //Contrôle email
     const email = contact.email;
-      if(/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(email)){
-    console.log(email);
+    if(/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(email)){
+      console.log(email);
     }
     else{
       alert('veuillez Entrez une adresse mail valide');
     }
-      console.log(email);
-      
+    console.log(email);
+    
     //Ajout au localStorage des données formulaire 
     localStorage.setItem('donneesFormulaire',JSON.stringify(contact))
-
-  //Construction d'un array products depuis le local storage pour récupérer les ID produits a envoyer
-
-    let productsId = [];
-    for (i = 0 ; i < localStorageProduct.length; i++){
-      productsId.push(localStorageProduct[i].productId);
-    }
-
     
-    console.log(productsId)
-    // Objet order à envoyer au serveur
-    const order = {
-      contact :{
-        firstName,
-        lastName,
-        address,
-        city,
-        email
-      },
-      products:productsId,
-    }
-
-    console.log(order);
-
-  //Envoie du formulaire au serveur
-
-    async function envoieFormulaireServeur(){
-    //let response;
-    
-        await fetch("http://localhost:3000/api/products/order", {
-          method: 'POST',
-            body: JSON.stringify(order),
-            headers: {
-                'Accept': 'application/json', 
-                "Content-Type": "application/json" 
-            }
-        })
-
-        .then((response) => response.json())
-          //console.log(response.json())
-          
-        .then((params) => {
-          console.log(params)
-          //data.get('orderId',data.orderId)
-          //récupérer l'Id de la commande et l'ajouter au localStorage 
-          localStorage.setItem('orderId', params.orderId)
-          //Vider le localStorage
-           //localStorage.clear();
-           //Redirection vers la page confirmation
-           document.location.href = "confirmation.html";
-        })
-          
-        .catch((err) => {
-              err = alert ("une erreur s'est produite ");
-            }
-            )
-
-        }
+    // appel de la fonction envooieFormulaireServeur()
     envoieFormulaireServeur();
-  console.log(envoieFormulaireServeur);
-  });
-
-
+}
   
+);
+ 
+
+//function envoieFormulaireServeur
+async function envoieFormulaireServeur(){
+
+  // initialisation du tableau productId depuis le localStorage
+  let productsId = [];
+  for (i = 0 ; i < localStorageProduct.length; i++){
+    productsId.push(localStorageProduct[i].productId);
+  }
+  
+  console.log(productsId)
+  // Objet order à envoyer au serveur
+  const order = {
+    contact :{
+      firstName,
+      lastName,
+      address,
+      city,
+      email
+    },
+    products:productsId,
+  }
+  
+  console.log(order);
+
+
+  await fetch("http://localhost:3000/api/products/order", {
+    method: 'POST',
+    body: JSON.stringify(order),
+    headers: {
+            'Accept': 'application/json', 
+            "Content-Type": "application/json" 
+        }
+    })
+
+  .then((response) => response.json())
+  //console.log(response.json())
+    
+  .then((params) => {
+    console.log(params)
+    //récupérer l'Id de la commande et l'ajouter au sessionStorage 
+    sessionStorage.setItem('orderId', params.orderId)
+    //Vider le localStorage
+    localStorage.clear();
+    //Redirection vers la page confirmation
+    document.location.href = "confirmation.html";
+  })
+
+  .catch((err) => {
+    err = alert ("une erreur s'est produite ");
+      }
+      ) 
+  }

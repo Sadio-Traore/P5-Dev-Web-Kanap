@@ -7,16 +7,12 @@ let price ;
 let description ;
 
 
-
-    // Récupération de l'ID du produit
-    const queryString = window.location.search;
-    const url = new URLSearchParams(queryString);
-    console.log(url);
-    const id = url.get("id");
-    console.log(id);
-
-
-
+// Récupération de l'ID du produit
+const queryString = window.location.search;
+const url = new URLSearchParams(queryString);
+console.log(url);
+const id = url.get("id");
+console.log(id);
 
 
 // Récuperation du produit séléctionné
@@ -30,35 +26,34 @@ async function getProduct() {
             product = await response.json();
             console.log(product);
             
-                //Insertion de l'image
-              productImg = document.createElement("img");
-              document.querySelector(".item__img").append(productImg);
-              productImg.src = product.imageUrl;
-              productImg.alt = product.altTxt;
-              
-              // Récupération du nom de produit
-              productName = document.querySelector('#title');
-              productName.textContent = product.name;
-              
-              // Récupération du prix
-              price = document.querySelector('#price');
-              price.textContent = product.price;
-          
-              // Récupération de la description
-              description = document.querySelector('#description');
-              description.textContent = product.description;
+            //Insertion de l'image
+            productImg = document.createElement("img");
+            document.querySelector(".item__img").append(productImg);
+            productImg.src = product.imageUrl;
+            productImg.alt = product.altTxt;
+            
+            // Récupération du nom de produit
+            productName = document.querySelector('#title');
+            productName.textContent = product.name;
+            
+            // Récupération du prix
+            price = document.querySelector('#price');
+            price.textContent = product.price;
+        
+            // Récupération de la description
+            description = document.querySelector('#description');
+            description.textContent = product.description;
 
             
           
-              // Insertion des options de couleurs
-              for (let colors of product.colors){
-                  //console.table(colors);
-                  let productColors = document.createElement("option");
-                  document.querySelector("#colors").append(productColors);
-                  productColors.value = colors;
-                  productColors.textContent = colors
-                  
-                }
+        // Insertion des options de couleurs
+        for (let colors of product.colors){
+            //console.table(colors);
+            let productColors = document.createElement("option");
+            document.querySelector("#colors").append(productColors);
+            productColors.value = colors;
+            productColors.textContent = colors;         
+        }
 
             }   
         }
@@ -80,7 +75,6 @@ async function getProduct() {
 const addToCart = () => {
     //Sélection du bouton 'Ajouter au panier
     const buttonEnvoyer = document.querySelector('#addToCart');
-
     buttonEnvoyer.addEventListener("click", ()=>{
 
         // Récupération de la quantité et de la couleur
@@ -99,7 +93,9 @@ const addToCart = () => {
             price : product.price,
         };
 
-        if (localStorageProduct == null) {
+    
+        
+        if (localStorageProduct == null ) {
             localStorageProduct = [];
             localStorageProduct.push(produitCaractéristiques);
             console.log(localStorageProduct);
@@ -111,12 +107,13 @@ const addToCart = () => {
         //cas ou le produit est présent ds le Localstorage avec la même couleur
         else if (localStorageProduct != null){
             for (k = 0 ; k < localStorageProduct.length; k++ ){
+                
                 console.log('test');
                  if(localStorageProduct[k].productId == product._id && 
                  localStorageProduct[k].productColor == colors.value
                  ){
                     return(
-                        localStorageProduct[k].quantity++ ,
+                        localStorageProduct[k].quantity++,
                         console.log('quantity++'),
 
                         localStorage.setItem('product', JSON.stringify(localStorageProduct)),
@@ -131,14 +128,14 @@ const addToCart = () => {
                localStorageProduct[k].productColor != colors.value ||
                localStorageProduct._id != product._id 
                ){
-                
                     return(
                         localStorageProduct.push(produitCaractéristiques),
                         localStorage.setItem('product', JSON.stringify(localStorageProduct))//,
                         
                         )   
-               }
-     }}
-
-    })
-};
+                }
+            }
+            }
+        }
+    )
+}

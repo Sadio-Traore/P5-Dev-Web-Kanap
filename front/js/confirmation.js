@@ -1,6 +1,6 @@
 
  //on récupère l'orderId
- let orderId = localStorage.getItem('orderId');
+ let orderId = sessionStorage.getItem('orderId');
  console.log(orderId);
 
 // // Affichage de l'orderId
