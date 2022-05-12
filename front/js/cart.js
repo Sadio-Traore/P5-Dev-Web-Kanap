@@ -161,6 +161,9 @@ function AffichageTotauxquantitePrix(){
   quantiteTotal.textContent = totalItemsQuantite;
   console.log(totalItemsQuantite);
 
+  localStorage.setItem('quantitéTotal', totalItemsQuantite);
+
+
   // Récupération du prix total
   totalItemsPrix = 0;
 
@@ -212,7 +215,7 @@ modificationQuantité();
 // séléction du bouton envoyer le formulaire
   const commander = document.querySelector('#order');
   console.log(commander);
-
+  let form = document.querySelector('form');
   // récupération des élément de formulaire pour les ajouter au localStorage
 
   commander.addEventListener('click', (e) => {
@@ -228,58 +231,73 @@ modificationQuantité();
     }
       
       // Contrôles validation donnés formulaires
+      let complet = true;
       //Contrôle prénom
     const firstName = contact.firstName;
-     if (/^[A-Za-z]{3,20}$/.test(firstName)){
-      
-      console.log(firstName);
-    }
-    else{
-      alert('Veuillez entrer votre prénom');
-    }
 
+      if (/^[A-Za-z]{3,20}$/.test(firstName)){
+        
+        console.log(firstName);
+      }
+      else if(form.firstName.value == "" || form.firstName.value == null) {
+        alert('Veuillez renseigner votre prénom');
+        complet=false;
+        }
+        
     //Contrôle nom
     const lastName = contact.lastName;
       if(/^[A-Za-z-éàùçè]{3,20}$/.test(lastName)){
       console.log(lastName);
     }
-    else{
-      alert('Veuillez entrer votre nom');
-    }
+    else if(form.lastName.value == "" || form.lastName.value == null) {
+      alert('Veuillez renseigner votre nom');
+      complet=false;
+      }
 
     //Contôle adresse
     const address = contact.address;
       if(/^[A-Za-z0-9-éèàçù,\s]{5,50}$/.test(address)){
       console.log(address);
     }
-    else{
-      console.log('Veuillez entrer votre adresse');
-    }
+    else if(form.address.value == "" || form.address.value == null) {
+      alert('Veuillez renseigner votre adresse');
+      complet=false;
+      }
 
     //Contôle ville
     const city = contact.city;
       if(/^[A-Za-z-.]{3,20}$/.test(city)){
       console.log(city);
     }
-    else{
-      alert('Veuillez entrez la ville');
-    }
+    else if(form.city.value == "" || form.city.value == null) {
+      alert('Veuillez renseigner votre ville');
+      complet=false;
+      }
     
     //Contrôle email
     const email = contact.email;
     if(/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(email)){
       console.log(email);
     }
-    else{
-      alert('veuillez Entrez une adresse mail valide');
-    }
+    else if(form.email.value == "" || form.email.value == null) {
+      alert('Veuillez renseigner correctement votre email');
+      complet=false;
+      }
     console.log(email);
     
     //Ajout au localStorage des données formulaire 
     localStorage.setItem('donneesFormulaire',JSON.stringify(contact))
     
     // appel de la fonction envooieFormulaireServeur()
-    envoieFormulaireServeur();
+    if(complet){form.submit();
+     //Ajout au localStorage des données formulaire 
+     localStorage.setItem('donneesFormulaire',JSON.stringify(contact))
+     envoieFormulaireServeur();
+    }
+    else{
+      !form.submit()
+      alert('Veuillez renseigner correctement le formulaire')
+    }
 }
   
 );
