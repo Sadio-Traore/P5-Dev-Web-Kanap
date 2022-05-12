@@ -6,7 +6,7 @@ let productName ;
 let price ;
 let description ;
 
-function getProductById(){
+
 
     // Récupération de l'ID du produit
     const queryString = window.location.search;
@@ -14,9 +14,9 @@ function getProductById(){
     console.log(url);
     const id = url.get("id");
     console.log(id);
-}
 
-getProductById()
+
+
 
 
 // Récuperation du produit séléctionné
