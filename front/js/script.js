@@ -12,10 +12,12 @@ if(!requete.ok){
 }
 else {
   var items = document.getElementsByClassName('.items');
-   items = await requete.json();
+
+  //stockage de la réponse de l'Api dans la variable items
+  items = await requete.json();
  // console.log(donnees);
  // Iteration sur chaque données
- for (const product of items){
+  for (const product of items){
    console.log (product);
 
    // création lien vers chaque produit
