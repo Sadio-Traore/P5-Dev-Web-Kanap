@@ -259,7 +259,7 @@ function validationDonneesFormulaire(){
   if (/^[A-Za-z]{3,20}$/.test(firstName)){     
     console.log(firstName);
   }
-  else if(form.firstName.value == "" || form.firstName.value == null){
+  else if(form.firstName.value == "" || form.firstName.value == null || !firstName.valid){
     alert('Veuillez renseigner votre prénom');
     complet=false;
   }
@@ -270,7 +270,7 @@ function validationDonneesFormulaire(){
   if(/^[A-Za-z-éàùçè]{3,20}$/.test(lastName)){
     console.log(lastName);
   }
-  else if(form.lastName.value == "" || form.lastName.value == null){
+  else if(form.lastName.value == "" || form.lastName.value == null || !lastName.valid){
     alert('Veuillez renseigner votre nom');
     complet=false;
   }
@@ -281,7 +281,7 @@ function validationDonneesFormulaire(){
   if(/^[A-Za-z0-9-éèàçù,\s]{5,50}$/.test(address)){
     console.log(address);
   }
-  else if(form.address.value == "" || form.address.value == null) {
+  else if(form.address.value == "" || form.address.value == null || !address.valid) {
     alert('Veuillez renseigner votre adresse');
     complet=false;
   }
@@ -292,7 +292,7 @@ function validationDonneesFormulaire(){
   if(/^[A-Za-z-.]{3,20}$/.test(city)){
       console.log(city);
   }
-  else if(form.city.value == "" || form.city.value == null) {
+  else if(form.city.value == "" || form.city.value == null || !city.valid) {
     alert('Veuillez renseigner votre ville');
     complet=false;
   }
@@ -303,7 +303,7 @@ function validationDonneesFormulaire(){
   if(/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(email)){
       console.log(email);
   }
-  else if(form.email.value == "" || form.email.value == null) {
+  else if(form.email.value == "" || form.email.value == null || !email.valid) {
     alert('Veuillez renseigner correctement votre email');
     complet=false;
   }

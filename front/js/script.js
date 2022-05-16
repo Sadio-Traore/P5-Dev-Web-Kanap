@@ -13,7 +13,7 @@ if(!requete.ok){
 else {
   var items = document.getElementsByClassName('.items');
 
-  //stockage de la réponse de l'Api dans la variable items
+ //stockage de la réponse de l'Api dans la variable items
   items = await requete.json();
  // console.log(donnees);
  // Iteration sur chaque données
