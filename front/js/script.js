@@ -15,7 +15,7 @@ else {
 
  //stockage de la réponse de l'Api dans la variable items
   items = await requete.json();
- // console.log(donnees);
+ // console.log(items);
  // Iteration sur chaque données
   for (const product of items){
    console.log (product);
