@@ -6,7 +6,10 @@ console.log(localStorageProduct);
 let cartItem;
 let itemContent;
 let prix;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 878ac048b1e1b03119dfb72388fc294103950fa5
 
 // création fonction affichageProduitPanier
 function affichageProduitPanier(){
