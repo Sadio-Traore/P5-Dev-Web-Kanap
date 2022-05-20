@@ -6,24 +6,24 @@ console.log(localStorageProduct);
 //const quantity = document.querySelectorAll('.itemQuantity')
 let cartItem;
 let itemContent;
-let key;
+//let key;
 let prix;
 //let reducer = (accumulator,currentValue) => accumulator + currentValue
-let quantiteItem = [];
-console.log(quantiteItem)
+//let quantiteItem = [];
+//console.log(quantiteItem)
 
-let quantiteItemPanier;
-let prixItem;
-let prixItemPanier;
-let reducer = (accumulator,currentValue) => accumulator + currentValue;
-let totalPrixItems; //= prixItem.reduce(reducer);
-let prixItemsTotalCommande = document.querySelector('#totalPrice');
+//let quantiteItemPanier;
+//let prixItem;
+//let prixItemPanier;
+//let reducer = (accumulator,currentValue) => accumulator + currentValue;
+//let totalPrixItems; //= prixItem.reduce(reducer);
+//let prixItemsTotalCommande = document.querySelector('#totalPrice');
 
-let quantite = [];
-    let quantiteProduitPanier;
-    let prixProduitPanier;
-let totalQuantite ;//= quantite.reduce(reducer);
-    let quantiteTotalCommande = document.querySelector('#totalQuantity');
+//let quantite = [];
+    //let quantiteProduitPanier;
+    //let prixProduitPanier;
+//let totalQuantite ;//= quantite.reduce(reducer);
+    //let quantiteTotalCommande = document.querySelector('#totalQuantity');
 
 
 // création fonction affichageProduitPanier
