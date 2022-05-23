@@ -75,37 +75,39 @@ async function getProduct() {
 //Récupération des choix de l'utilisateur et envoi du panier
    
 // Création de la fonction de validation de la quantité et de la couleur
-function validationQuantiteCouleur(){
-
+function validationQuantiteCouleur(e){
+    
     if (colors.value == '' || quantity.value == 0){
         
-        return (
-            alert('Veuillez sélectionner une couleur et/ou choisir une quantité'),
+     alert('Veuillez sélectionner une couleur et/ou choisir une quantité')
+
+     console.log ('erreur')
+
+     e.preventDefault()
             
-            console.log ('erreur')
-            )
         }
     }
-
-
+    
+    
 //  Fonction d'ajout du produit au panier
 function addToCart () {
     //Sélection du bouton 'Ajouter au panier
     const buttonEnvoyer = document.querySelector('#addToCart');
     buttonEnvoyer.addEventListener("click", ()=>{
-
+        
         // Récupération de la quantité et de la couleur
-    let quantity = document.querySelector('#quantity');
-    let colors = document.querySelector('#colors');
-    console.log(quantity.value)
-    console.log(colors.value)
+        let quantity = document.querySelector('#quantity');
+        let colors = document.querySelector('#colors');
+        console.log(quantity.value)
+        console.log(colors.value)
 
-    
-    validationQuantiteCouleur()
-    
-    // Initialisation du localStorage
-    localStorageProduct = JSON.parse(localStorage.getItem('product'));
-    //création  objet produitCaractéristiques
+        // Initialisation du localStorage
+        localStorageProduct = JSON.parse(localStorage.getItem('product'));
+
+        // Appel fonction validationQuantiteCouleur()
+        validationQuantiteCouleur()
+        
+        //création  objet produitCaractéristiques
         const produitCaractéristiques = {
             quantity :+quantity.value,
             productImg : product.imageUrl,
@@ -114,10 +116,10 @@ function addToCart () {
             productId : product._id,
             price : product.price,
         };
-    
+
         // Cas où le localStorage est vide
         if (localStorageProduct == null ) {
-           
+            
             localStorageProduct = [];
             localStorageProduct.push(produitCaractéristiques);
             console.log(localStorageProduct);
@@ -142,7 +144,7 @@ function addToCart () {
                     //console.log(newQuantite),
                     localStorage.setItem('product', JSON.stringify(localStorageProduct)),
                     (localStorageProduct = JSON.parse(localStorage.getItem('product')))
-                        )
+                    )
                 } 
             }
                         

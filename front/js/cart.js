@@ -94,8 +94,8 @@ affichageProduitPanier()
 //----------------------------------------------------------------
 //suppression de produit
 
-  // récupération du bouton : supprimer
-  let btnSupprimer = document.querySelectorAll(".deleteItem");
+// récupération du bouton : supprimer
+let btnSupprimer = document.querySelectorAll(".deleteItem");
 
   //Création fonction removeItem()
 function removeItem() {

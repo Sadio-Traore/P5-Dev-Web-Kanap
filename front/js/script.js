@@ -11,9 +11,9 @@ if(!requete.ok){
   alert('une erreur est survenue');
 }
 else {
+  //stockage de la réponse de l'Api dans la variable items
   var items = document.getElementsByClassName('.items');
 
- //stockage de la réponse de l'Api dans la variable items
   items = await requete.json();
  // console.log(items);
  // Iteration sur chaque données
