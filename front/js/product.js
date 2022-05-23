@@ -67,12 +67,12 @@ async function getProduct() {
         
     };
     
-    // Appel de la fonction getProduct() 
+// Appel de la fonction getProduct() 
     getProduct();
   
     
-    //-------------AJOUT PRODUIT AU PANIER----------------
-    //Récupération des choix de l'utilisateur et envoi du panier
+//-------------AJOUT PRODUIT AU PANIER----------------
+//Récupération des choix de l'utilisateur et envoi du panier
    
 // Création de la fonction de validation de la quantité et de la couleur
 function validationQuantiteCouleur(){

@@ -6,10 +6,7 @@ console.log(localStorageProduct);
 let cartItem;
 let itemContent;
 let prix;
-<<<<<<< HEAD
 
-=======
->>>>>>> 878ac048b1e1b03119dfb72388fc294103950fa5
 
 // création fonction affichageProduitPanier
 function affichageProduitPanier(){
@@ -94,44 +91,44 @@ function affichageProduitPanier(){
 
 affichageProduitPanier()
   
-  //----------------------------------------------------------------
-  //suppression de produit
+//----------------------------------------------------------------
+//suppression de produit
 
-   // récupération du bouton : supprimer
-   let btnSupprimer = document.querySelectorAll(".deleteItem");
+  // récupération du bouton : supprimer
+  let btnSupprimer = document.querySelectorAll(".deleteItem");
 
-   //Création fonction removeItem()
-   function removeItem() {
+  //Création fonction removeItem()
+function removeItem() {
 
-    for (let i = 0; i < btnSupprimer.length; i++){
-      btnSupprimer[i].addEventListener("click" , (e) => {
-        e.preventDefault();
-      
-          //Selection du produit à supprimer en fonction de son id et de sa couleur
-            let deleteProduct = localStorageProduct[i].productId;
-            let deleteColor = localStorageProduct[i].productColor;
-
-            // Création d'un nouveau tableau ne contenant que les produits dont l'id et la couleur sont différents de ceux du prouits séléctionné
-            localStorageProduct = localStorageProduct.filter(product => product.productId !== deleteProduct || product.productColor !== deleteColor )//el => el.productId !== deleteProduct || el.productColor !== deleteColor );
-            
-            //Envoie du nouveau tableau au localStorage
-            localStorage.setItem("product", JSON.stringify(localStorageProduct));
-
-            // Alerte
-            alert("Ce produit a été supprimé du panier");
-
-            //réactualisation de la page
-            location.reload();
-        })
-    }
-  };
-    removeItem();
+  for (let i = 0; i < btnSupprimer.length; i++){
+    btnSupprimer[i].addEventListener("click" , (e) => {
+      e.preventDefault();
     
-//-------------------------------------------------
+      //Selection du produit à supprimer en fonction de son id et de sa couleur
+        let deleteProduct = localStorageProduct[i].productId;
+        let deleteColor = localStorageProduct[i].productColor;
+
+        // Création d'un nouveau tableau ne contenant que les produits dont l'id et la couleur sont différents de ceux du prouits séléctionné
+        localStorageProduct = localStorageProduct.filter(product => product.productId !== deleteProduct || product.productColor !== deleteColor )//el => el.productId !== deleteProduct || el.productColor !== deleteColor );
+        
+        //Envoie du nouveau tableau au localStorage
+        localStorage.setItem("product", JSON.stringify(localStorageProduct));
+
+        // Alerte
+        alert("Ce produit a été supprimé du panier");
+
+        //réactualisation de la page
+        location.reload();
+      })
+}
+};
+removeItem();
+    
+//-----------------------------------------------------------------
 // Calcul des totaux et affichage
 
- let totalItemsQuantite
- let totalItemsPrix
+let totalItemsQuantite
+let totalItemsPrix
 
 function affichageTotauxQuantitePrix(){
 
@@ -162,13 +159,13 @@ function affichageTotauxQuantitePrix(){
 
   // Récupération du prix total
 
-  //Initialsatin du prix total à 0
+  //Initialisation du prix total à 0
   totalItemsPrix = 0;
 
-  //Itération sur chauqe article différent du panier
+  //Itération sur chaque article différent du panier
   for (let i = 0; i < nombreArticles; ++i) {
-      //Calcul de la somme de tout les prix en fonction de la quantité de chaque article et leur prix respectifs
-      totalItemsPrix += (+itemQuantity[i].value * localStorageProduct[i].price);
+    //Calcul de la somme de tout les prix en fonction de la quantité de chaque article et leur prix respectifs
+    totalItemsPrix += (+itemQuantity[i].value * localStorageProduct[i].price);
   }
 
   //Affichage du prix total
@@ -196,33 +193,33 @@ function modificationQuantité(){
       //let key = e.target.value
       // console.log(key)
       return(
-          //valeur de la nouvelle quantité
-          localStorageProduct[k].quantity= +itemQuantity[k].value ,
+        //valeur de la nouvelle quantité
+        localStorageProduct[k].quantity= +itemQuantity[k].value ,
+      
+        // ajout de la nouvelle quantité au localStorage
+        localStorage.setItem("product", JSON.stringify(localStorageProduct)),
         
-          // ajout de la nouvelle quantité au localStorage
-          localStorage.setItem("product", JSON.stringify(localStorageProduct)),
-         
-          console.log(localStorageProduct),
-           
-          // rappel de la fonction AffichagetotauxQuantitePrix
-          affichageTotauxQuantitePrix()
+        console.log(localStorageProduct),
+          
+        // rappel de la fonction AffichagetotauxQuantitePrix
+        affichageTotauxQuantitePrix()
         )
     })
   }
 }
 modificationQuantité();
         
-//--------------------------------------------------------------
+//----------------------------------------------------------------
   
-  // FORMULAIRE
+// FORMULAIRE
 
   
-  // séléction du bouton envoyer le formulaire
-  const commander = document.querySelector('#order');
-  console.log(commander);
-  let form = document.querySelector('form');
+// séléction du bouton envoyer le formulaire
+const commander = document.querySelector('#order');
+console.log(commander);
+let form = document.querySelector('form');
 
-  // fonction validation des données renseignées dans le formulaire
+// fonction validation des données renseignées dans le formulaire
 function validationDonneesFormulaire(){
   
   // Objet contact contenant les données utilisateur
@@ -307,14 +304,14 @@ function validationDonneesFormulaire(){
   }
   }
  
-  //function envoieFormulaireServeur
-  async function envoieFormulaireServeur(){
+//function envoieFormulaireServeur
+async function envoieFormulaireServeur(){
   // initialisation du tableau productId depuis le localStorage
   let productsId = [];
   for (i = 0 ; i < localStorageProduct.length; i++){
     productsId.push(localStorageProduct[i].productId);
   }
-  
+
   console.log(productsId)
   // Objet order à envoyer au serveur
   const order = {
@@ -327,7 +324,7 @@ function validationDonneesFormulaire(){
     },
     products: productsId,
   }
-  
+
   console.log(order);
 
   // requête fetch 
@@ -357,13 +354,12 @@ function validationDonneesFormulaire(){
     err = alert ("une erreur s'est produite ");
       }
       ) 
-  }
+}
 
 
 // Appel de la fonction de validation du formulaire au 'clik" sur le bouton commander
 commander.addEventListener('click', (e) => {
   e.preventDefault();
 
-// Appel de la fonction de validation du formulaire
-validationDonneesFormulaire()
+  validationDonneesFormulaire()
   }) 
