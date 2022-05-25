@@ -62,8 +62,7 @@ async function getProduct() {
         catch (error) {
             err = alert("Une erreur est survenue");
         }
-        // Appel de la fonction addToCart lorsqu'un produit est choisi
-        addToCart(product);
+       
         
     };
     
@@ -72,94 +71,100 @@ async function getProduct() {
   
     
 //-------------AJOUT PRODUIT AU PANIER----------------
+
+//Sélection du bouton 'Ajouter au panier
+const buttonEnvoyer = document.querySelector('#addToCart');
+buttonEnvoyer.addEventListener("click", ()=>{
+    
+    // Appel fonction validationQuantiteCouleur() qui appel la fonction addToCart si tout est bon
+    validationQuantiteCouleur()
+})
+
+
+
 //Récupération des choix de l'utilisateur et envoi du panier
-   
 // Création de la fonction de validation de la quantité et de la couleur
-function validationQuantiteCouleur(e){
+async function validationQuantiteCouleur(){
     
     if (colors.value == '' || quantity.value == 0){
         
      alert('Veuillez sélectionner une couleur et/ou choisir une quantité')
 
      console.log ('erreur')
-
-     e.preventDefault()
             
         }
+    else {
+        addToCart()
+    }
     }
     
     
 //  Fonction d'ajout du produit au panier
-function addToCart () {
-    //Sélection du bouton 'Ajouter au panier
-    const buttonEnvoyer = document.querySelector('#addToCart');
-    buttonEnvoyer.addEventListener("click", ()=>{
+    
+async function addToCart () {
+    // Récupération de la quantité et de la couleur
+    let quantity = document.querySelector('#quantity');
+    let colors = document.querySelector('#colors');
+    console.log(quantity.value)
+    console.log(colors.value)
+
+    // Initialisation du localStorage
+    localStorageProduct = JSON.parse(localStorage.getItem('product'));
+
+    
+    //création  objet produitCaractéristiques
+    const produitCaractéristiques = {
+        quantity :+quantity.value,
+        productImg : product.imageUrl,
+        altImg  : product.alTxt,
+        productColor: colors.value,
+        productId : product._id,
+        price : product.price,
+    };
+
+    // Cas où le localStorage est vide
+    if (localStorageProduct == null ) {
         
-        // Récupération de la quantité et de la couleur
-        let quantity = document.querySelector('#quantity');
-        let colors = document.querySelector('#colors');
-        console.log(quantity.value)
-        console.log(colors.value)
+        localStorageProduct = [];
+        localStorageProduct.push(produitCaractéristiques);
+        console.log(localStorageProduct);
 
-        // Initialisation du localStorage
-        localStorageProduct = JSON.parse(localStorage.getItem('product'));
+        localStorage.setItem('product', JSON.stringify(localStorageProduct));
+    }
 
-        // Appel fonction validationQuantiteCouleur()
-        validationQuantiteCouleur()
+
+    //Cas où le localStorage n'est pas vide
+    else if (localStorageProduct != null){
         
-        //création  objet produitCaractéristiques
-        const produitCaractéristiques = {
-            quantity :+quantity.value,
-            productImg : product.imageUrl,
-            altImg  : product.alTxt,
-            productColor: colors.value,
-            productId : product._id,
-            price : product.price,
-        };
-
-        // Cas où le localStorage est vide
-        if (localStorageProduct == null ) {
+        //cas ou le produit est présent ds le Localstorage avec la même couleur
+        for (k = 0 ; k < localStorageProduct.length; k++ ){
             
-            localStorageProduct = [];
-            localStorageProduct.push(produitCaractéristiques);
-            console.log(localStorageProduct);
-
-            localStorage.setItem('product', JSON.stringify(localStorageProduct));
+            if(localStorageProduct[k].productId == product._id && localStorageProduct[k].productColor == colors.value
+            ){
+            // création de la variable contenant la quantité à ajouter
+            let ajoutQuantite = parseInt(quantity.value);
+            const  newQuantite =+ (localStorageProduct[k].quantity +=  ajoutQuantite)
+            return(
+                newQuantite ,
+                //console.log(newQuantite),
+                localStorage.setItem('product', JSON.stringify(localStorageProduct)),
+                (localStorageProduct = JSON.parse(localStorage.getItem('product')))
+                )
+            } 
         }
-
-
-        //Cas où le localStorage n'est pas vide
-        else if (localStorageProduct != null){
-            
-            //cas ou le produit est présent ds le Localstorage avec la même couleur
-            for (k = 0 ; k < localStorageProduct.length; k++ ){
-                
-                if(localStorageProduct[k].productId == product._id && localStorageProduct[k].productColor == colors.value
-                ){
-                // création de la variable contenant la quantité à ajouter
-                let ajoutQuantite = parseInt(quantity.value);
-                const  newQuantite =+ (localStorageProduct[k].quantity +=  ajoutQuantite)
-                return(
-                    newQuantite ,
-                    //console.log(newQuantite),
-                    localStorage.setItem('product', JSON.stringify(localStorageProduct)),
-                    (localStorageProduct = JSON.parse(localStorage.getItem('product')))
-                    )
-                } 
-            }
-                        
-            // cas où il ya un produit présent dans le localStorage avecle même Id et une couleur différente ou possède un Id différent
-            for (k = 0; k < localStorageProduct.length; k++ ){
-
-                if(localStorageProduct[k].productId == product._id && localStorageProduct[k].productColor != colors.value || localStorageProduct._id != product._id 
-                ){
-                return(
-                    localStorageProduct.push(produitCaractéristiques),
-                    localStorage.setItem('product', JSON.stringify(localStorageProduct))//,
                     
-                    )   
-                }
+        // cas où il ya un produit présent dans le localStorage avecle même Id et une couleur différente ou possède un Id différent
+        for (k = 0; k < localStorageProduct.length; k++ ){
+
+            if(localStorageProduct[k].productId == product._id && localStorageProduct[k].productColor != colors.value || localStorageProduct._id != product._id 
+            ){
+            return(
+                localStorageProduct.push(produitCaractéristiques),
+                localStorage.setItem('product', JSON.stringify(localStorageProduct))//,
+                
+                )   
             }
         }
-    } )
-}
+    }
+} 
+
