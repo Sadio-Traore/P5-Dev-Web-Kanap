@@ -6,6 +6,8 @@ console.log(localStorageProduct);
 let cartItem;
 let itemContent;
 let prix;
+let totalItemsQuantite
+let totalItemsPrix
 
 
 // création fonction affichageProduitPanier
@@ -90,7 +92,7 @@ function affichageProduitPanier(){
 }
 
 affichageProduitPanier()
-  
+
 //----------------------------------------------------------------
 //suppression de produit
 
@@ -126,9 +128,6 @@ removeItem();
     
 //-----------------------------------------------------------------
 // Calcul des totaux et affichage
-
-let totalItemsQuantite
-let totalItemsPrix
 
 function affichageTotauxQuantitePrix(){
 
@@ -174,7 +173,7 @@ function affichageTotauxQuantitePrix(){
   console.log(totalItemsPrix);
 
   //Ajout du rpix au session storage
-  sessionStorage.setItem('prixTotal', totalItemsPrix);
+  localStorage.setItem('prixTotal', totalItemsPrix);
 }
 
 // Appel de la fonction AffichageTotauxQuantitePrix
@@ -343,9 +342,8 @@ async function envoieFormulaireServeur(){
   .then((params) => {
     console.log(params)
     //récupérer l'Id de la commande et l'ajouter au sessionStorage 
-    sessionStorage.setItem('orderId', params.orderId)
-    //Vider le localStorage
-    localStorage.clear();
+    localStorage.setItem('orderId', params.orderId)
+    
     //Redirection vers la page confirmation
     document.location.href = "confirmation.html";
   })
