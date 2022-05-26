@@ -247,7 +247,9 @@ function validationDonneesFormulaire(){
   }
   else if(form.firstName.value == "" || form.firstName.value == null || !firstName.valid){
    firstNameError.textContent = 'Veuillez renseigner votre Prénom';
-    complet=false;
+   
+   return false,
+   complet=false;
   }
       
   //Contrôle nom
@@ -258,6 +260,7 @@ function validationDonneesFormulaire(){
   }
   else if(form.lastName.value == "" || form.lastName.value == null || !lastName.valid){
     lastNameError.textContent = 'Veuillez renseigner votre nom';
+    return false,
     complet=false;
   }
 
@@ -269,6 +272,7 @@ function validationDonneesFormulaire(){
   }
   else if(form.address.value == "" || form.address.value == null || !address.valid) {
     addressError.textContent = 'Veuillez renseigner votre adresse';
+    return false,
     complet=false;
   }
   
@@ -280,6 +284,7 @@ function validationDonneesFormulaire(){
   }
   else if(form.city.value == "" || form.city.value == null || !city.valid) {
     cityError.textContent = 'Veuillez renseigner votre ville';
+    return false,
     complet=false;
   }
     
@@ -291,6 +296,7 @@ function validationDonneesFormulaire(){
   }
   else if(form.email.value == "" || form.email.value == null || !email.valid) {
     emailError.textContent = 'Veuillez renseigner correctement votre email';
+    return false,
     complet=false;
   }
         
@@ -301,10 +307,9 @@ function validationDonneesFormulaire(){
     localStorage.setItem('donneesFormulaire',JSON.stringify(contact))
   }
   else{
-    !form.submit();
-    !location.reload()
-    //alert('Veuillez renseigner correctement le formulaire');
     
+    !form.submit()
+    !location.reload()
   }
   }
  
