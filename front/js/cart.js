@@ -291,7 +291,7 @@ function validationDonneesFormulaire(){
         
   if(complet){form.submit();
     // appel de la fonction envooieFormulaireServeur()
-    envoieFormulaireServeur();
+    envoieCommandeServeur();
     //Ajout au localStorage des données formulaire 
     localStorage.setItem('donneesFormulaire',JSON.stringify(contact))
   }
@@ -304,7 +304,7 @@ function validationDonneesFormulaire(){
   }
  
 //function envoieFormulaireServeur
-async function envoieFormulaireServeur(){
+async function envoieCommandeServeur(){
   // initialisation du tableau productId depuis le localStorage
   let productsId = [];
   for (i = 0 ; i < localStorageProduct.length; i++){
@@ -325,16 +325,17 @@ async function envoieFormulaireServeur(){
   }
 
   console.log(order);
-
-  // requête fetch 
-  await fetch("http://localhost:3000/api/products/order", {
+ try {
+   
+   // requête fetch 
+   await fetch("http://localhost:3000/api/products/order", {
     method: 'POST',
     body: JSON.stringify(order),
     headers: {
-            'Accept': 'application/json', 
-            "Content-Type": "application/json" 
-        }
-    })
+      'Accept': 'application/json', 
+      "Content-Type": "application/json" 
+    }
+  })
 
   .then((response) => response.json())
   //console.log(response.json())
@@ -347,12 +348,13 @@ async function envoieFormulaireServeur(){
     //Redirection vers la page confirmation
     document.location.href = "confirmation.html";
   })
-
-  .catch((err) => {
-    err = alert ("une erreur s'est produite ");
-      }
-      ) 
+  
 }
+  catch(error){ {
+    error = alert ("une erreur s'est produite ");
+      }
+      
+}}
 
 
 // Appel de la fonction de validation du formulaire au 'clik" sur le bouton commander
