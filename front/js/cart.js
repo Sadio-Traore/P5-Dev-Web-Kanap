@@ -233,6 +233,11 @@ function validationDonneesFormulaire(){
   // Contrôles validation donnés formulaires
 
   let complet = true;
+  const firstNameError = document.querySelector('#firstNameErrorMsg');
+  const lastNameError = document.querySelector('#lastNameErrorMsg');
+  const addressError = document.querySelector('#addressErrorMsg');
+  const cityError = document.querySelector('#cityErrorMsg');
+  const emailError = document.querySelector('#emailErrorMsg');
 
   //Contrôle prénom
   const firstName = contact.firstName;
@@ -241,7 +246,7 @@ function validationDonneesFormulaire(){
     console.log(firstName);
   }
   else if(form.firstName.value == "" || form.firstName.value == null || !firstName.valid){
-    alert('Veuillez renseigner votre prénom');
+   firstNameError.textContent = 'Veuillez renseigner votre Prénom';
     complet=false;
   }
       
@@ -252,7 +257,7 @@ function validationDonneesFormulaire(){
     console.log(lastName);
   }
   else if(form.lastName.value == "" || form.lastName.value == null || !lastName.valid){
-    alert('Veuillez renseigner votre nom');
+    lastNameError.textContent = 'Veuillez renseigner votre nom';
     complet=false;
   }
 
@@ -263,7 +268,7 @@ function validationDonneesFormulaire(){
     console.log(address);
   }
   else if(form.address.value == "" || form.address.value == null || !address.valid) {
-    alert('Veuillez renseigner votre adresse');
+    addressError.textContent = 'Veuillez renseigner votre adresse';
     complet=false;
   }
   
@@ -274,7 +279,7 @@ function validationDonneesFormulaire(){
       console.log(city);
   }
   else if(form.city.value == "" || form.city.value == null || !city.valid) {
-    alert('Veuillez renseigner votre ville');
+    cityError.textContent = 'Veuillez renseigner votre ville';
     complet=false;
   }
     
@@ -285,7 +290,7 @@ function validationDonneesFormulaire(){
       console.log(email);
   }
   else if(form.email.value == "" || form.email.value == null || !email.valid) {
-    alert('Veuillez renseigner correctement votre email');
+    emailError.textContent = 'Veuillez renseigner correctement votre email';
     complet=false;
   }
         
@@ -296,10 +301,10 @@ function validationDonneesFormulaire(){
     localStorage.setItem('donneesFormulaire',JSON.stringify(contact))
   }
   else{
-    return(
-      !form.submit(),
-      alert('Veuillez renseigner correctement le formulaire')
-    ) 
+    !form.submit();
+    !location.reload()
+    //alert('Veuillez renseigner correctement le formulaire');
+    
   }
   }
  
